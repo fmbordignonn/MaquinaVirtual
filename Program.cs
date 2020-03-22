@@ -40,12 +40,26 @@ namespace ConsoleApp1
 
                 switch (command)
                 {
+                    // faz PC pular direto pra uma linha k
+                    //JMP 12
+                    case "JMP":
+                        pc = Convert.ToInt32(parameters[0]);
+                    break;
+
+                    // faz PC pular direto pra linha contida no registrador r
+                    // JMPI r1
+                    case "JMPI":
+                        pc = Convert.ToInt32(registradores[parameters[0]]);
+                    break;
+
                     // carrega um valor k em um registrador
+                    // LDI r1, 10
                     case "LDI":
                         registradores[parameters[0]] = Convert.ToInt32(parameters[1].Trim());
-                        break;
+                    break;
 
                     // carrega um valor da memoria em um registrador
+                    // LDD r1,[50]
                     case "LDD":
                         var value = parameters[1].Trim(new char [] {'[', ']'});
                         int convertedValue = Convert.ToInt32(value);
@@ -53,8 +67,12 @@ namespace ConsoleApp1
                         //memoria[51] = 12313;
                         registradores[parameters[0]] = memoria[convertedValue];
                     break;
+
+                    default:
+                        throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
                 }
-                pc++;
+
+                pc++; // acho q isso nao deve ser aqui, mas ve isso dps
             }
         }
     }
