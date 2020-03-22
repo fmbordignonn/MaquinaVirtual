@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ConsoleApp1
 {
@@ -20,7 +21,7 @@ namespace ConsoleApp1
             registradores.Add("r7", 0);
             registradores.Add("r8", 0);
 
-            string[] memoria = new string[1024];
+            int[] memoria = new int[1024];
 
             int pc = 0;
 
@@ -31,25 +32,30 @@ namespace ConsoleApp1
 
             while (fileContent[pc] != "STOP")
             {
-                ParseLineContent(fileContent[pc], registradores);
+                var dataContent = fileContent[pc].Split(' ');
+
+                string command = dataContent[0];
+
+                string[] parameters = dataContent[1].Split(',');
+
+                switch (command)
+                {
+                    // carrega um valor k em um registrador
+                    case "LDI":
+                        registradores[parameters[0]] = Convert.ToInt32(parameters[1].Trim());
+                        break;
+
+                    // carrega um valor da memoria em um registrador
+                    case "LDD":
+                        var value = parameters[1].Trim(new char [] {'[', ']'});
+                        int convertedValue = Convert.ToInt32(value);
+
+                        //memoria[51] = 12313;
+                        registradores[parameters[0]] = memoria[convertedValue];
+                    break;
+                }
+                pc++;
             }
-        }
-
-        public static string ParseLineContent(string line, Dictionary<string, int> registradores)
-        {
-            var dataContent = line.Split(' ');
-
-            string command = dataContent[0];
-            string[] parameters = dataContent[1].Split(',');
-            
-            switch (command)
-            {
-                case "LDI":
-                registradores[parameters[0]] = Convert.ToInt32(parameters[1]);
-                break;
-            }
-
-            return null;
         }
     }
 }
