@@ -1,0 +1,13 @@
+C:\Users\Felipe\Desktop\trab\bin\Debug\netcoreapp3.1\trab.exe
+C:\Users\Felipe\Desktop\trab\bin\Debug\netcoreapp3.1\trab.deps.json
+C:\Users\Felipe\Desktop\trab\bin\Debug\netcoreapp3.1\trab.runtimeconfig.json
+C:\Users\Felipe\Desktop\trab\bin\Debug\netcoreapp3.1\trab.runtimeconfig.dev.json
+C:\Users\Felipe\Desktop\trab\bin\Debug\netcoreapp3.1\trab.dll
+C:\Users\Felipe\Desktop\trab\bin\Debug\netcoreapp3.1\trab.pdb
+C:\Users\Felipe\Desktop\trab\obj\Debug\netcoreapp3.1\trab.csprojAssemblyReference.cache
+C:\Users\Felipe\Desktop\trab\obj\Debug\netcoreapp3.1\trab.csproj.CoreCompileInputs.cache
+C:\Users\Felipe\Desktop\trab\obj\Debug\netcoreapp3.1\trab.AssemblyInfoInputs.cache
+C:\Users\Felipe\Desktop\trab\obj\Debug\netcoreapp3.1\trab.AssemblyInfo.cs
+C:\Users\Felipe\Desktop\trab\obj\Debug\netcoreapp3.1\trab.dll
+C:\Users\Felipe\Desktop\trab\obj\Debug\netcoreapp3.1\trab.pdb
+C:\Users\Felipe\Desktop\trab\obj\Debug\netcoreapp3.1\trab.genruntimeconfig.cache
