@@ -53,7 +53,7 @@ namespace ConsoleApp1
                         break;
 
                     // faz PC pular direto pra linha contida no registrador rx, caso ry seja maior que 0
-                    // JMPIG rx, ry
+                    // JMPIG rx,ry
                     case "JMPIG":
 
                         //melhorar esse if dps pq ta mt feio
@@ -68,7 +68,7 @@ namespace ConsoleApp1
                         break;
 
                     // faz PC pular direto pra linha contida no registrador rx, caso ry seja menor que 0
-                    // JMPIL rx, ry
+                    // JMPIL rx,ry
                     case "JMPIL":
 
                         //melhorar esse if dps pq ta mt feio
@@ -83,7 +83,7 @@ namespace ConsoleApp1
                         break;
 
                     // faz PC pular direto pra linha contida no registrador rx, caso ry igual a 0
-                    // JMPIE rx, ry
+                    // JMPIE rx,ry
                     case "JMPIE":
                         //melhorar esse if dps pq ta mt feio
                         if (Convert.ToInt32(registradores[parameters[1]]) == 0)
@@ -96,8 +96,20 @@ namespace ConsoleApp1
                         }
                         break;
 
+                    // realiza a soma imediata de um valor k no registrador r
+                    //ADDI r1,1
+                    case "ADDI":
+                        registradores[parameters[0]] += Convert.ToInt32(parameters[1]);
+                        break;
+
+                    // realiza a subtração imediata de um valor k no registrador r
+                    //SUBI r1,1
+                    case "SUBI":
+                        registradores[parameters[0]] -= Convert.ToInt32(parameters[1]);
+                        break;
+
                     // carrega um valor k em um registrador
-                    // LDI r1, 10
+                    // LDI r1,10
                     case "LDI":
                         registradores[parameters[0]] = Convert.ToInt32(parameters[1]);
                         break;
@@ -108,7 +120,6 @@ namespace ConsoleApp1
                         var value = parameters[1].Trim(new char[] { '[', ']' });
                         int convertedValue = Convert.ToInt32(value);
 
-                        //memoria[51] = 12313;
                         registradores[parameters[0]] = memoria[convertedValue];
                         break;
 
