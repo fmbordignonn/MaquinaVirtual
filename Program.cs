@@ -44,35 +44,116 @@ namespace ConsoleApp1
                     //JMP 12
                     case "JMP":
                         pc = Convert.ToInt32(parameters[0]);
-                    break;
+                        break;
 
                     // faz PC pular direto pra linha contida no registrador r
                     // JMPI r1
                     case "JMPI":
                         pc = Convert.ToInt32(registradores[parameters[0]]);
-                    break;
+                        break;
+
+                    // faz PC pular direto pra linha contida no registrador rx, caso ry seja maior que 0
+                    // JMPIG rx,ry
+                    case "JMPIG":
+
+                        //melhorar esse if dps pq ta mt feio
+                        if (Convert.ToInt32(registradores[parameters[1]]) > 0)
+                        {
+                            pc = Convert.ToInt32(registradores[parameters[0]]);
+                        }
+                        else
+                        {
+                            pc++;
+                        }
+                        break;
+
+                    // faz PC pular direto pra linha contida no registrador rx, caso ry seja menor que 0
+                    // JMPIL rx,ry
+                    case "JMPIL":
+
+                        //melhorar esse if dps pq ta mt feio
+                        if (Convert.ToInt32(registradores[parameters[1]]) < 0)
+                        {
+                            pc = Convert.ToInt32(registradores[parameters[0]]);
+                        }
+                        else
+                        {
+                            pc++;
+                        }
+                        break;
+
+                    // faz PC pular direto pra linha contida no registrador rx, caso ry igual a 0
+                    // JMPIE rx,ry
+                    case "JMPIE":
+                        //melhorar esse if dps pq ta mt feio
+                        if (Convert.ToInt32(registradores[parameters[1]]) == 0)
+                        {
+                            pc = Convert.ToInt32(registradores[parameters[0]]);
+                        }
+                        else
+                        {
+                            pc++;
+                        }
+                        break;
+
+                    // realiza a soma imediata de um valor k no registrador r
+                    //ADDI r1,1
+                    case "ADDI":
+                        registradores[parameters[0]] += Convert.ToInt32(parameters[1]);
+                        break;
+
+                    // realiza a subtração imediata de um valor k no registrador r
+                    //SUBI r1,1
+                    case "SUBI":
+                        registradores[parameters[0]] -= Convert.ToInt32(parameters[1]);
+                        break;
 
                     // carrega um valor k em um registrador
-                    // LDI r1, 10
+                    // LDI r1,10
                     case "LDI":
-                        registradores[parameters[0]] = Convert.ToInt32(parameters[1].Trim());
-                    break;
+                        registradores[parameters[0]] = Convert.ToInt32(parameters[1]);
+                        break;
 
                     // carrega um valor da memoria em um registrador
                     // LDD r1,[50]
                     case "LDD":
-                        var value = parameters[1].Trim(new char [] {'[', ']'});
+                        var value = parameters[1].Trim(new char[] { '[', ']' });
                         int convertedValue = Convert.ToInt32(value);
 
-                        //memoria[51] = 12313;
                         registradores[parameters[0]] = memoria[convertedValue];
-                    break;
+                        break;
 
+                    case "STD":
+                        break;
+
+                    case "ADD":
+                        break;
+
+                    case "SUB":
+                        break;
+
+                    case "MULT":
+                        break;
+
+                    //AND nao precisa
+
+                    //OR nao precisa
+
+
+                    case "LDX": // nsei se precisa
+                        break;
+
+                    case "STX": // nsei se precisa
+                        break;
+
+                    // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
                     default:
                         throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
                 }
 
                 pc++; // acho q isso nao deve ser aqui, mas ve isso dps
+
+                // tem q add os trim dps pra evitar q de exception por causa de whitespace
             }
         }
     }
