@@ -123,13 +123,37 @@ namespace ConsoleApp1
                         registradores[parameters[0]] = memoria[convertedValue];
                         break;
 
+                    case "STD":
+                        break;
+
+                    case "ADD":
+                        break;
+
+                    case "SUB":
+                        break;
+
+                    case "MULT":
+                        break;
+
+                    //AND nao precisa
+
+                    //OR nao precisa
+
+
+                    case "LDX": // nsei se precisa
+                        break;
+
+                    case "STX": // nsei se precisa
+                        break;
+
+                    // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
                     default:
                         throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
                 }
 
                 pc++; // acho q isso nao deve ser aqui, mas ve isso dps
 
-                // tem q add os trim dps
+                // tem q add os trim dps pra evitar q de exception por causa de whitespace
             }
         }
     }
