@@ -26,24 +26,25 @@ namespace ConsoleApp1
             int pc = 0;
 
             Console.WriteLine("Digite o caminho do arquivo\n");
-            var filePath = @"C:\Users\Felipe\Desktop\texiste.txt";//Console.ReadLine();
+            string filePath = @"C:\Users\Felipe\Desktop\texiste.txt";//Console.ReadLine();
 
-            var fileContent = File.ReadAllLines(filePath);
+            string[] fileContent = File.ReadAllLines(filePath);
 
             while (fileContent[pc] != "STOP")
             {
-                var dataContent = fileContent[pc].Split(' ');
+                string[] dataContent = fileContent[pc].Split(' ');
 
                 string command = dataContent[0];
 
-                string[] parameters = dataContent[1].Split(',');
+                // Replace pra remover espaços em branco - a fim de que o programa não falhe por receber "r1,r2" nem "r1, r2"
+                string[] parameters = dataContent[1].Replace(" ", "").Split(',');
 
                 string value = "";
 
                 switch (command)
                 {
                     // faz PC pular direto pra uma linha k
-                    //JMP 12
+                    // JMP 12
                     case "JMP":
                         pc = Convert.ToInt32(parameters[0]);
                         break;
@@ -126,9 +127,10 @@ namespace ConsoleApp1
                         break;
 
                     // guarda na memoria um valor contido no registrador r
-                    // STD 52,r1
+                    // STD [52],r1
                     case "STD":
-                        memoria[Convert.ToInt32(parameters[0])] = registradores[parameters[1]];
+                        value = parameters[0].Trim(new char[] { '[', ']' });
+                        memoria[Convert.ToInt32(value)] = registradores[parameters[1]];
                         break;
 
                     // faz a operaçao: rx = rx + ry
@@ -165,7 +167,8 @@ namespace ConsoleApp1
                     // STX [rx],ry
                     // tem q conserta esse
                     case "STX":
-                        registradores["r2"] = 12;
+                        registradores["r1"] = 12;
+                        registradores["r2"] = 1;
                         memoria[12] = 123;
                         value = parameters[0].Trim(new char[] { '[', ']' });
 
@@ -181,6 +184,10 @@ namespace ConsoleApp1
 
                 // tem q add os trim dps pra evitar q de exception por causa de whitespace
             }
+
+            // printa todos os registradores e seus valores atuais
+
+            // printa todas posições da memoria q nao sao 0
         }
     }
 }
