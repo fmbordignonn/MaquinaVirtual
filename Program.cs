@@ -103,18 +103,24 @@ namespace ConsoleApp1
                     //ADDI r1,1
                     case "ADDI":
                         registradores[parameters[0]] += Convert.ToInt32(parameters[1]);
+
+                        pc++;
                         break;
 
                     // realiza a subtração imediata de um valor k no registrador r
                     //SUBI r1,1
                     case "SUBI":
                         registradores[parameters[0]] -= Convert.ToInt32(parameters[1]);
+
+                        pc++;
                         break;
 
                     // carrega um valor k em um registrador
                     // LDI r1,10
                     case "LDI":
                         registradores[parameters[0]] = Convert.ToInt32(parameters[1]);
+
+                        pc++;
                         break;
 
                     // carrega um valor da memoria em um registrador
@@ -124,31 +130,42 @@ namespace ConsoleApp1
                         int convertedValue = Convert.ToInt32(value);
 
                         registradores[parameters[0]] = memoria[convertedValue];
+
+                        pc++;
                         break;
 
                     // guarda na memoria um valor contido no registrador r
                     // STD [52],r1
                     case "STD":
                         value = parameters[0].Trim(new char[] { '[', ']' });
+
                         memoria[Convert.ToInt32(value)] = registradores[parameters[1]];
+
+                        pc++;
                         break;
 
                     // faz a operaçao: rx = rx + ry
                     // ADD rx,ry
                     case "ADD":
                         registradores[parameters[0]] += registradores[parameters[1]];
+
+                        pc++;
                         break;
 
                     // faz a operaçao: rx = rx - ry
                     // ADD rx,ry
                     case "SUB":
                         registradores[parameters[0]] -= registradores[parameters[1]];
+
+                        pc++;
                         break;
 
                     // faz a operaçao: rx = rx * ry
                     // ADD rx,ry
                     case "MULT":
                         registradores[parameters[0]] *= registradores[parameters[1]];
+
+                        pc++;
                         break;
 
                     //AND nao precisa
@@ -161,6 +178,8 @@ namespace ConsoleApp1
                         value = parameters[1].Trim(new char[] { '[', ']' });
 
                         registradores[parameters[0]] = memoria[registradores[value]];
+
+                        pc++;
                         break;
 
                     // guarda na posição de memoria rx o dado contido em ry
@@ -170,17 +189,19 @@ namespace ConsoleApp1
                         value = parameters[0].Trim(new char[] { '[', ']' });
 
                         memoria[registradores[value]] = registradores[parameters[1]];
+
+                        pc++;
                         break;
 
                     // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
                     default:
                         throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
                 }
-
-                pc++; // acho q isso nao deve ser aqui, mas ve isso dps
-
-                // tem q add os trim dps pra evitar q de exception por causa de whitespace
             }
+
+            var memoriaTeste = memoria.Where(x => x != 0).ToList();
+
+            var ss = "sadasd";
 
             // printa todos os registradores e seus valores atuais
 
