@@ -38,6 +38,8 @@ namespace ConsoleApp1
 
                 string[] parameters = dataContent[1].Split(',');
 
+                string value = "";
+
                 switch (command)
                 {
                     // faz PC pular direto pra uma linha k
@@ -117,33 +119,57 @@ namespace ConsoleApp1
                     // carrega um valor da memoria em um registrador
                     // LDD r1,[50]
                     case "LDD":
-                        var value = parameters[1].Trim(new char[] { '[', ']' });
+                        value = parameters[1].Trim(new char[] { '[', ']' });
                         int convertedValue = Convert.ToInt32(value);
 
                         registradores[parameters[0]] = memoria[convertedValue];
                         break;
 
+                    // guarda na memoria um valor contido no registrador r
+                    // STD 52,r1
                     case "STD":
+                        memoria[Convert.ToInt32(parameters[0])] = registradores[parameters[1]];
                         break;
 
+                    // faz a operaçao: rx = rx + ry
+                    // ADD rx,ry
                     case "ADD":
+                        registradores[parameters[0]] += registradores[parameters[1]];
                         break;
 
+                    // faz a operaçao: rx = rx - ry
+                    // ADD rx,ry
                     case "SUB":
+                        registradores[parameters[0]] -= registradores[parameters[1]];
                         break;
 
+                    // faz a operaçao: rx = rx * ry
+                    // ADD rx,ry
                     case "MULT":
+                        registradores[parameters[0]] *= registradores[parameters[1]];
                         break;
 
                     //AND nao precisa
 
                     //OR nao precisa
 
+                    // carrega em rx o dado contido na posiçao de memoria indicada por ry
+                    // LDX rx,[ry]
+                    case "LDX":
+                        value = parameters[1].Trim(new char[] { '[', ']' });
 
-                    case "LDX": // nsei se precisa
+                        registradores[parameters[0]] = memoria[registradores[value]];
                         break;
 
-                    case "STX": // nsei se precisa
+                    // guarda na posição de memoria rx o dado contido em ry
+                    // STX [rx],ry
+                    // tem q conserta esse
+                    case "STX":
+                        registradores["r2"] = 12;
+                        memoria[12] = 123;
+                        value = parameters[0].Trim(new char[] { '[', ']' });
+
+                        memoria[registradores[value]] = registradores[parameters[1]];
                         break;
 
                     // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
