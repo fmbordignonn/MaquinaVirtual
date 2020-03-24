@@ -167,9 +167,6 @@ namespace ConsoleApp1
                     // STX [rx],ry
                     // tem q conserta esse
                     case "STX":
-                        registradores["r1"] = 12;
-                        registradores["r2"] = 1;
-                        memoria[12] = 123;
                         value = parameters[0].Trim(new char[] { '[', ']' });
 
                         memoria[registradores[value]] = registradores[parameters[1]];
