@@ -209,3 +209,5 @@ namespace ConsoleApp1
         }
     }
 }
+// opcode data pra tipo dado
+// a memoria tem q ser de um objeto
