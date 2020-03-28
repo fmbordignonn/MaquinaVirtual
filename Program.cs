@@ -92,21 +92,21 @@ namespace ConsoleApp1
                         }
                         break;
 
-                        //     //     // realiza a soma imediata de um valor k no registrador r
-                        //     //     //ADDI r1,1
-                        //     //     case "ADDI":
-                        //     //         registradores[parameters[0]] += Convert.ToInt32(parameters[1]);
+                    // realiza a soma imediata de um valor k no registrador r
+                    //ADDI r1,1
+                    case "ADDI":
+                        registradores[currentLine.Reg1] += currentLine.Parameter;
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
-                        //     //     // realiza a subtração imediata de um valor k no registrador r
-                        //     //     //SUBI r1,1
-                        //     //     case "SUBI":
-                        //     //         registradores[parameters[0]] -= Convert.ToInt32(parameters[1]);
+                    // realiza a subtração imediata de um valor k no registrador r
+                    //SUBI r1,1
+                    case "SUBI":
+                        registradores[currentLine.Reg1] -= currentLine.Parameter;
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
                         //     //     // carrega um valor k em um registrador
                         //     //     // LDI r1,10
