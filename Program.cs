@@ -32,7 +32,7 @@ namespace ConsoleApp1
 
             while (memoria[pc].OPCode != "STOP")
             {
-                //     switch (command)
+                //     switch (command)otnet
                 //     // {
                 //     //     // faz PC pular direto pra uma linha k
                 //     //     // JMP 12
