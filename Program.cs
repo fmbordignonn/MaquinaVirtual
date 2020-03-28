@@ -25,6 +25,8 @@ namespace ConsoleApp1
 
             int pc = 0;
 
+            string value = string.Empty;
+
             Console.WriteLine("Digite o caminho do arquivo\n");
             string filePath = @"C:\Users\Felipe\Desktop\texiste.txt";//Console.ReadLine();
 
@@ -108,83 +110,103 @@ namespace ConsoleApp1
                         pc++;
                         break;
 
-                        //     //     // carrega um valor k em um registrador
-                        //     //     // LDI r1,10
-                        //     //     case "LDI":
-                        //     //         registradores[parameters[0]] = Convert.ToInt32(parameters[1]);
+                    // carrega um valor k em um registrador
+                    // LDI r1,10
+                    case "LDI":
+                        registradores[currentLine.Reg1] = currentLine.Parameter;
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
-                        //     //     // carrega um valor da memoria em um registrador
-                        //     //     // LDD r1,[50]
-                        //     //     case "LDD":
-                        //     //         value = parameters[1].Trim(new char[] { '[', ']' });
-                        //     //         int convertedValue = Convert.ToInt32(value);
+                    // carrega um valor da memoria em um registrador
+                    // LDD r1,[50]
+                    case "LDD":
+                        value = currentLine.Reg2.Trim(new char[] { '[', ']' });
+                        int memoryPosition = Convert.ToInt32(value);
 
-                        //     //         registradores[parameters[0]] = memoria[convertedValue];
+                        if (currentLine.OPCode == "DATA")
+                        {
+                            registradores[currentLine.Reg1] = memoria[memoryPosition].Parameter;
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
+                            // será q precisa disso mesmo?
+                        }
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
-                        //     //     // guarda na memoria um valor contido no registrador r
-                        //     //     // STD [52],r1
-                        //     //     case "STD":
-                        //     //         value = parameters[0].Trim(new char[] { '[', ']' });
+                    // guarda na memoria um valor contido no registrador r
+                    // STD [52],r1
+                    case "STD":
+                        value = currentLine.Reg1.Trim(new char[] { '[', ']' });
 
-                        //     //         memoria[Convert.ToInt32(value)] = registradores[parameters[1]];
+                        memoria[Convert.ToInt32(value)] = new PosicaoDeMemoria
+                        {
+                            OPCode = "DATA",
+                            Parameter = registradores[currentLine.Reg2]
+                        };
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
-                        //     //     // faz a operaçao: rx = rx + ry
-                        //     //     // ADD rx,ry
-                        //     //     case "ADD":
-                        //     //         registradores[parameters[0]] += registradores[parameters[1]];
+                    // faz a operaçao: rx = rx + ry
+                    // ADD rx,ry
+                    case "ADD":
+                        registradores[currentLine.Reg1] += registradores[currentLine.Reg2];
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
-                        //     //     // faz a operaçao: rx = rx - ry
-                        //     //     // ADD rx,ry
-                        //     //     case "SUB":
-                        //     //         registradores[parameters[0]] -= registradores[parameters[1]];
+                    // faz a operaçao: rx = rx - ry
+                    // SUB rx,ry
+                    case "SUB":
+                        registradores[currentLine.Reg1] -= registradores[currentLine.Reg2];
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
-                        //     //     // faz a operaçao: rx = rx * ry
-                        //     //     // ADD rx,ry
-                        //     //     case "MULT":
-                        //     //         registradores[parameters[0]] *= registradores[parameters[1]];
+                    // faz a operaçao: rx = rx * ry
+                    // MULT rx,ry
+                    case "MULT":
+                        registradores[currentLine.Reg1] *= registradores[currentLine.Reg2];
 
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
-                        //     //     //AND nao precisa
+                    // carrega em rx o dado contido na posiçao de memoria indicada por ry
+                    // LDX rx,[ry]
+                    case "LDX":
+                        value = currentLine.Reg2.Trim(new char[] { '[', ']' });
 
-                        //     //     //OR nao precisa
+                        registradores[currentLine.Reg1] = memoria[registradores[value]].Parameter;
 
-                        //     //     // carrega em rx o dado contido na posiçao de memoria indicada por ry
-                        //     //     // LDX rx,[ry]
-                        //     //     case "LDX":
-                        //     //         value = parameters[1].Trim(new char[] { '[', ']' });
+                        pc++;
+                        break;
 
-                        //     //         registradores[parameters[0]] = memoria[registradores[value]];
+                    // guarda na posição de memoria rx o dado contido em ry
+                    // STX [rx],ry
+                    case "STX":
+                        value = currentLine.Reg1.Trim(new char[] { '[', ']' });
 
-                        //     //         pc++;
-                        //     //         break;
+                        if (currentLine.OPCode == "DATA")
+                        {
+                            memoria[registradores[value]] = new PosicaoDeMemoria
+                            {
+                                OPCode = "DATA",
+                                Parameter = registradores[currentLine.Reg2]
+                            };
 
-                        //     //     // guarda na posição de memoria rx o dado contido em ry
-                        //     //     // STX [rx],ry
-                        //     //     // tem q conserta esse
-                        //     //     case "STX":
-                        //     //         value = parameters[0].Trim(new char[] { '[', ']' });
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
+                            // será q precisa disso mesmo?
+                        }
 
-                        //     //         memoria[registradores[value]] = registradores[parameters[1]];
-
-                        //     //         pc++;
-                        //     //         break;
+                        pc++;
+                        break;
 
                         //     //     // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
                         //     default:
