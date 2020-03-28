@@ -26,6 +26,7 @@ namespace ConsoleApp1
             int pc = 0;
 
             string value = string.Empty;
+            bool logicalResult = false;
 
             Console.WriteLine("Digite o caminho do arquivo\n");
             string filePath = @"C:\Users\Felipe\Desktop\texiste.txt";//Console.ReadLine();
@@ -173,6 +174,42 @@ namespace ConsoleApp1
                     // MULT rx,ry
                     case "MULT":
                         registradores[currentLine.Reg1] *= registradores[currentLine.Reg2];
+
+                        pc++;
+                        break;
+
+                    // faz a operaçao: rx = rx AND k
+                    // AND rx,k
+                    case "ANDI":
+                        if (new int[] { 0, 1 }.Contains(registradores[currentLine.Reg1]))
+                        {
+                            logicalResult = Convert.ToBoolean(currentLine.Parameter) &&
+                                            Convert.ToBoolean(registradores[currentLine.Reg1]);
+
+                            registradores[currentLine.Reg1] = Convert.ToInt32(logicalResult);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("O registrador não contém um valor lógico válido");
+                        }
+
+                        pc++;
+                        break;
+
+                    // faz a operaçao: rx = rx OR k
+                    // OR rx,k
+                    case "ORI":
+                        if (new int[] { 0, 1 }.Contains(registradores[currentLine.Reg1]))
+                        {
+                            logicalResult = Convert.ToBoolean(currentLine.Parameter) ||
+                                            Convert.ToBoolean(registradores[currentLine.Reg1]);
+
+                            registradores[currentLine.Reg1] = Convert.ToInt32(logicalResult);
+                        }
+                        else
+                        {
+                            throw new ArgumentException("O registrador não contém um valor lógico válido");
+                        }
 
                         pc++;
                         break;
