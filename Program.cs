@@ -36,6 +36,8 @@ namespace ConsoleApp1
 
             while (currentLine.OPCode != "STOP")
             {
+                currentLine = memoria[pc];
+
                 switch (currentLine.OPCode)
                 {
                     // faz PC pular direto pra uma linha k
@@ -124,7 +126,7 @@ namespace ConsoleApp1
                         value = currentLine.Reg2.Trim(new char[] { '[', ']' });
                         int memoryPosition = Convert.ToInt32(value);
 
-                        if (currentLine.OPCode == "DATA")
+                        if (memoria[memoryPosition].OPCode == "DATA")
                         {
                             registradores[currentLine.Reg1] = memoria[memoryPosition].Parameter;
                         }
@@ -190,7 +192,7 @@ namespace ConsoleApp1
                     case "STX":
                         value = currentLine.Reg1.Trim(new char[] { '[', ']' });
 
-                        if (currentLine.OPCode == "DATA")
+                        if (memoria[Convert.ToInt32(value)].OPCode == "DATA")
                         {
                             memoria[registradores[value]] = new PosicaoDeMemoria
                             {
@@ -213,6 +215,9 @@ namespace ConsoleApp1
                         //         throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
                 }
             }
+
+            var ss = "";
+
             // printa todos os registradores e seus valores atuais
 
             // printa todas posições da memoria q nao sao 0
