@@ -29,7 +29,7 @@ namespace ConsoleApp1
             bool logicalResult = false;
 
             Console.WriteLine("Digite o caminho do arquivo\n");
-            string filePath = @"C:\Users\Felipe\Desktop\texiste.txt";//Console.ReadLine();
+            string filePath = Environment.CurrentDirectory + @"\programs\P3.txt";//Console.ReadLine();
 
             ReadFile(filePath, memoria);
 
@@ -59,10 +59,12 @@ namespace ConsoleApp1
                         if (Convert.ToInt32(registradores[currentLine.Reg2]) > 0)
                         {
                             pc = Convert.ToInt32(registradores[currentLine.Reg1]);
+                            currentLine = memoria[pc];
                         }
                         else
                         {
                             pc++;
+                            currentLine = memoria[pc];
                         }
                         break;
 
@@ -74,10 +76,12 @@ namespace ConsoleApp1
                         if (Convert.ToInt32(registradores[currentLine.Reg2]) < 0)
                         {
                             pc = Convert.ToInt32(registradores[currentLine.Reg1]);
+                            currentLine = memoria[pc];
                         }
                         else
                         {
                             pc++;
+                            currentLine = memoria[pc];
                         }
                         break;
 
@@ -88,10 +92,12 @@ namespace ConsoleApp1
                         if (Convert.ToInt32(registradores[currentLine.Reg2]) == 0)
                         {
                             pc = Convert.ToInt32(registradores[currentLine.Reg1]);
+                            currentLine = memoria[pc];
                         }
                         else
                         {
                             pc++;
+                            currentLine = memoria[pc];
                         }
                         break;
 
@@ -109,6 +115,7 @@ namespace ConsoleApp1
                         registradores[currentLine.Reg1] -= currentLine.Parameter;
 
                         pc++;
+                        currentLine = memoria[pc];
                         break;
 
                     // carrega um valor k em um registrador
@@ -117,6 +124,7 @@ namespace ConsoleApp1
                         registradores[currentLine.Reg1] = currentLine.Parameter;
 
                         pc++;
+                        currentLine = memoria[pc];
                         break;
 
                     // carrega um valor da memoria em um registrador
@@ -125,7 +133,10 @@ namespace ConsoleApp1
                         value = currentLine.Reg2.Trim(new char[] { '[', ']' });
                         int memoryPosition = Convert.ToInt32(value);
 
-                        if (currentLine.OPCode == "DATA")
+                        // traja mudou isso aqui, eu botei LDD apenas para cair no if,
+                        // eu vi que tu bota DATA sempre que inicia outra PosicaoDeMemoria,
+                        // so que tu ta vendo se o currentLine é DATA, que no caso ja tem coisa dentro
+                        if (currentLine.OPCode == "LDD")
                         {
                             registradores[currentLine.Reg1] = memoria[memoryPosition].Parameter;
                         }
@@ -136,6 +147,7 @@ namespace ConsoleApp1
                         }
 
                         pc++;
+                        currentLine = memoria[pc];
                         break;
 
                     // guarda na memoria um valor contido no registrador r
@@ -150,6 +162,7 @@ namespace ConsoleApp1
                         };
 
                         pc++;
+                        currentLine = memoria[pc];
                         break;
 
                     // faz a operaçao: rx = rx + ry
@@ -174,6 +187,7 @@ namespace ConsoleApp1
                         registradores[currentLine.Reg1] *= registradores[currentLine.Reg2];
 
                         pc++;
+                        currentLine = memoria[pc];
                         break;
 
                     // faz a operaçao: rx = rx AND k
