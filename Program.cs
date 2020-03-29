@@ -56,8 +56,6 @@ namespace ConsoleApp1
                     // faz PC pular direto pra linha contida no registrador rx, caso ry seja maior que 0
                     // JMPIG rx,ry
                     case "JMPIG":
-
-                        //melhorar esse if dps pq ta mt feio
                         if (Convert.ToInt32(registradores[currentLine.Reg2]) > 0)
                         {
                             pc = Convert.ToInt32(registradores[currentLine.Reg1]);
@@ -73,8 +71,6 @@ namespace ConsoleApp1
                     // faz PC pular direto pra linha contida no registrador rx, caso ry seja menor que 0
                     // JMPIL rx,ry
                     case "JMPIL":
-
-                        //melhorar esse if dps pq ta mt feio
                         if (Convert.ToInt32(registradores[currentLine.Reg2]) < 0)
                         {
                             pc = Convert.ToInt32(registradores[currentLine.Reg1]);
@@ -90,7 +86,6 @@ namespace ConsoleApp1
                     // faz PC pular direto pra linha contida no registrador rx, caso ry igual a 0
                     // JMPIE rx,ry
                     case "JMPIE":
-                        //melhorar esse if dps pq ta mt feio
                         if (Convert.ToInt32(registradores[currentLine.Reg2]) == 0)
                         {
                             pc = Convert.ToInt32(registradores[currentLine.Reg1]);
@@ -142,7 +137,6 @@ namespace ConsoleApp1
                         else
                         {
                             throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
-                            // será q precisa disso mesmo?
                         }
 
                         pc++;
@@ -252,15 +246,14 @@ namespace ConsoleApp1
                         else
                         {
                             throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
-                            // será q precisa disso mesmo?
                         }
 
                         pc++;
                         break;
 
-                        //     //     // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
-                        //     default:
-                        //         throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
+                    // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
+                    default:
+                        throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
                 }
             }
 
@@ -286,10 +279,6 @@ namespace ConsoleApp1
                 Console.WriteLine($"Posição de memória [{i}]:");
                 Console.WriteLine(memoria[i].ToString() + "\n");
             }
-
-            // printa todos os registradores e seus valores atuais
-
-            // printa todas posições da memoria q nao sao 0
         }
 
         public static void ReadFile(string filePath, PosicaoDeMemoria[] memoria)
@@ -325,5 +314,3 @@ namespace ConsoleApp1
         }
     }
 }
-// opcode data pra tipo dado
-// a memoria tem q ser de um objeto
