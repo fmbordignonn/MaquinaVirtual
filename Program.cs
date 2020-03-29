@@ -264,7 +264,28 @@ namespace ConsoleApp1
                 }
             }
 
-            var test = "";
+            Console.WriteLine("Status final dos registradores:\n");
+
+            foreach (var item in registradores)
+            {
+                Console.WriteLine("--------------------------------------------\n");
+
+                Console.WriteLine($"Registrador [{item.Key}] - valor final [{item.Value}]\n");
+            }
+
+            Console.WriteLine("--------------------------------------------\n");
+
+            Console.WriteLine("Status final das posições de memória (não nulas)\n");
+
+            for (int i = 0; i < memoria.Length; i++)
+            {
+                if (memoria[i] == null)
+                {
+                    continue;
+                }
+                Console.WriteLine($"Posição de memória [{i}]:");
+                Console.WriteLine(memoria[i].ToString() + "\n");
+            }
 
             // printa todos os registradores e seus valores atuais
 
