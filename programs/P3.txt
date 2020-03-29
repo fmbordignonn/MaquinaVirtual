@@ -1,0 +1,16 @@
+LDI r1,5
+LDI r2,13
+LDI r4,7
+LDI r5,11
+JMPIL r2,r1
+STD [51],r1
+LDD r3,[51]
+SUBI r3,1
+JMPIE r5,r3
+MULT r1,r3
+JMPIG r4,r3
+STD [52],r1
+STOP
+LDI r5,-1
+STD [52],r5
+STOP
