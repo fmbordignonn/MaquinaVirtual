@@ -29,7 +29,7 @@ namespace ConsoleApp1
             bool logicalResult = false;
 
             Console.WriteLine("Digite o caminho do arquivo\n");
-            string filePath = Environment.CurrentDirectory + @"\programs\P3.txt";//Console.ReadLine();
+            string filePath = Environment.CurrentDirectory + @"\programs\P1.txt";//Console.ReadLine();
 
             ReadFile(filePath, memoria);
 
@@ -233,21 +233,28 @@ namespace ConsoleApp1
                     // STX [rx],ry
                     case "STX":
                         value = currentLine.Reg1.Trim(new char[] { '[', ']' });
+                        
 
-                        if (memoria[Convert.ToInt32(value)].OPCode == "DATA")
-                        {
+                        // pelo oq eu entendi esse if checa se a posicao é destinada para guardar dados e garante que nao é codigo
+                        // porém tem uma linha no P1 assim:
+                        // STX [r2],r5         r2=52; r5=1
+                        // a posição 52 nao foi inicializada ainda então aponta pra null.
+                        // esse Convert.ToInt32(value) ta dando o mesmo problema que deu no LDD
+
+                        //if (memoria[Convert.ToInt32(value)].OPCode == "DATA")
+                        //{
                             memoria[registradores[value]] = new PosicaoDeMemoria
                             {
                                 OPCode = "DATA",
                                 Parameter = registradores[currentLine.Reg2]
                             };
 
-                        }
+                     /* }
                         else
                         {
                             throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
                         }
-
+                        */
                         pc++;
                         break;
 
