@@ -253,7 +253,7 @@ namespace ConsoleApp1
 
                     // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
                     default:
-                        throw new ArgumentException($"Não foi possível encontrar o comando [{command}]");
+                        throw new ArgumentException($"Não foi possível encontrar o comando [{currentLine.OPCode}]");
                 }
             }
 
