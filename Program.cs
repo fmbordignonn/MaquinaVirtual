@@ -12,6 +12,7 @@ namespace ConsoleApp1
         {
             Dictionary<string, int> registradores = new Dictionary<string, int>();
 
+            registradores.Add("r0", 0);
             registradores.Add("r1", 0);
             registradores.Add("r2", 0);
             registradores.Add("r3", 0);
@@ -19,7 +20,6 @@ namespace ConsoleApp1
             registradores.Add("r5", 0);
             registradores.Add("r6", 0);
             registradores.Add("r7", 0);
-            registradores.Add("r8", 0);
 
             PosicaoDeMemoria[] memoria = new PosicaoDeMemoria[1024];
 
@@ -29,7 +29,7 @@ namespace ConsoleApp1
             bool logicalResult = false;
 
             Console.WriteLine("Digite o caminho do arquivo\n");
-            string filePath = Environment.CurrentDirectory + @"\programs\P1.txt";//Console.ReadLine();
+            string filePath = Environment.CurrentDirectory + @"\programs\P4.txt";//Console.ReadLine();
 
             ReadFile(filePath, memoria);
 
@@ -233,7 +233,7 @@ namespace ConsoleApp1
                     // STX [rx],ry
                     case "STX":
                         value = currentLine.Reg1.Trim(new char[] { '[', ']' });
-                        
+
 
                         // pelo oq eu entendi esse if checa se a posicao é destinada para guardar dados e garante que nao é codigo
                         // porém tem uma linha no P1 assim:
@@ -243,18 +243,47 @@ namespace ConsoleApp1
 
                         //if (memoria[Convert.ToInt32(value)].OPCode == "DATA")
                         //{
-                            memoria[registradores[value]] = new PosicaoDeMemoria
-                            {
-                                OPCode = "DATA",
-                                Parameter = registradores[currentLine.Reg2]
-                            };
-
-                     /* }
-                        else
+                        memoria[registradores[value]] = new PosicaoDeMemoria
                         {
-                            throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
+                            OPCode = "DATA",
+                            Parameter = registradores[currentLine.Reg2]
+                        };
+
+                        /* }
+                           else
+                           {
+                               throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
+                           }
+                           */
+                        pc++;
+                        break;
+
+                    // troca os valores dos registradores; r7←r3, r6←r2, r5←r1, r4←r0
+                    // até agora acreditamos que só da pra usar como parametro o r4, r5, r6 e r7
+                    // SWAP rx  
+                    case "SWAP":
+                        switch (currentLine.Reg1)
+                        {
+                            case "r4":
+                                registradores[currentLine.Reg1] = registradores["r0"];
+                                break;
+
+                            case "r5":
+                                registradores[currentLine.Reg1] = registradores["r1"];
+                                break;
+
+                            case "r6":
+                                registradores[currentLine.Reg1] = registradores["r2"];
+                                break;
+
+                            case "r7":
+                                registradores[currentLine.Reg1] = registradores["r3"];
+                                break;
+
+                            default:
+                                throw new ArgumentException($"Não é possível fazer SWAP conm o registrador [{currentLine.Reg1}]");
                         }
-                        */
+
                         pc++;
                         break;
 
