@@ -10,6 +10,47 @@ namespace ConsoleApp1
     {
         public static void Main(string[] args)
         {
+            string input;
+            string filePath = Environment.CurrentDirectory + @"\programs\";
+
+            do
+            {
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine("1- P1");
+                Console.WriteLine("2- P2");
+                Console.WriteLine("3- P3");
+                Console.WriteLine("4- P4");
+                Console.WriteLine("0- exit");
+                Console.WriteLine("---------------------------------\n");
+                Console.WriteLine("Digite o programa que deseja executar");
+                input = Console.ReadLine();
+
+                switch (input)
+                {
+                    case "1":
+                        VirtualMachine(filePath + "P1.txt");
+                        break;
+
+                    case "2":
+                        VirtualMachine(filePath + "P2.txt");
+                        break;
+
+                    case "3":
+                        VirtualMachine(filePath + "P3.txt");
+                        break;
+
+                    case "4":
+                        VirtualMachine(filePath + "P4.txt");
+                        break;
+
+                    default:
+                        break;    
+                }
+            } while (input != "0");
+        }
+
+        public static void VirtualMachine(string filePath)
+        {
             Dictionary<string, int> registradores = new Dictionary<string, int>();
 
             registradores.Add("r0", 0);
@@ -27,9 +68,6 @@ namespace ConsoleApp1
 
             string value = string.Empty;
             bool logicalResult = false;
-
-            Console.WriteLine("Digite o caminho do arquivo\n");
-            string filePath = Environment.CurrentDirectory + @"\programs\P4.txt";//Console.ReadLine();
 
             ReadFile(filePath, memoria);
 
