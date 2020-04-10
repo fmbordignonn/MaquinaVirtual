@@ -9,7 +9,9 @@ namespace ConsoleApp1
             string input;
             string filePath = Environment.CurrentDirectory + @"\programs\";
 
-            CPU cpu = new CPU();
+            Console.WriteLine("Digite o numero de partições desejado para a CPU:");
+            //int numeroParticoes = Convert.ToInt32(Console.ReadLine());
+            CPU cpu = new CPU(8);
 
             do
             {
