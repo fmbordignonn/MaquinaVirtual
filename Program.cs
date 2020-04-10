@@ -16,11 +16,11 @@ namespace ConsoleApp1
             do
             {
                 Console.WriteLine("---------------------------------");
-                Console.WriteLine("1- P1");
-                Console.WriteLine("2- P2");
-                Console.WriteLine("3- P3");
-                Console.WriteLine("4- P4");
-                Console.WriteLine("0- exit");
+                Console.WriteLine("1 - P1");
+                Console.WriteLine("2 - P2");
+                Console.WriteLine("3 - P3");
+                Console.WriteLine("4 - P4");
+                Console.WriteLine("0 - exit");
                 Console.WriteLine("---------------------------------\n");
                 Console.WriteLine("Digite o programa que deseja executar");
                 input = Console.ReadLine();
