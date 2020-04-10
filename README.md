@@ -1,3 +1,0 @@
-# MaquinaVirtual
-
-Trabalho de sisop
