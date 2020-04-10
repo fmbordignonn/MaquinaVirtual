@@ -2,7 +2,7 @@ Integrantes do grupo: Felipe Bordignon, Fernando Elger, Dimitri Finger e Carlos 
 
 Disponibilizamos:
 
-- Uma pasta (win10-x64) com o build do projeto com um executável;
+- Uma pasta (win10-x64) com o build do projeto com um executável (trab.exe);
 
 - O código fonte feito em C#;
 
