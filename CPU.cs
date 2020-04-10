@@ -33,6 +33,71 @@ public class CPU
         }
     }
 
+    public void NewCPUVirtualMachine(string filePath)
+    {
+        Dictionary<string, int> registradores = new Dictionary<string, int>();
+
+        registradores.Add("r0", 0);
+        registradores.Add("r1", 0);
+        registradores.Add("r2", 0);
+        registradores.Add("r3", 0);
+        registradores.Add("r4", 0);
+        registradores.Add("r5", 0);
+        registradores.Add("r6", 0);
+        registradores.Add("r7", 0);
+
+        int pc = 0;
+
+        string value = string.Empty;
+        bool logicalResult = false;
+
+        int particaoAleatoria = new System.Random().Next(0, Memoria.Count); // ver se ta certo msm
+
+        NewCPUReadFile(filePath, Memoria[particaoAleatoria]);
+
+        PosicaoDeMemoria currentLine = Memoria[particaoAleatoria].MemoriaParticao[];
+
+
+    }
+
+    public void NewCPUReadFile(string filePath, ParticaoMemoria particao)
+    {
+        string[] fileContent = File.ReadAllLines(filePath);
+
+        for (int i = 0; i < fileContent.Length; i++)
+        {
+            string[] dataContent = fileContent[i].Split(' ');
+
+            string command = dataContent[0];
+
+            if (command == "STOP")
+            {
+                particao.MemoriaParticao[i] = new PosicaoDeMemoria
+                {
+                    OPCode = "STOP"
+                };
+
+                continue;
+            }
+
+            string[] parameters = dataContent[1].Replace(" ", "").Split(',');
+
+            particao.MemoriaParticao[i] = new PosicaoDeMemoria
+            {
+                OPCode = command,
+                Reg1 = parameters[0].Contains("r") || parameters[0].Contains("[") ? parameters[0] : null,
+                Reg2 = parameters[1].Contains("r") || parameters[1].Contains("[") ? parameters[1] : null,
+                Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
+            };
+        }
+    }
+
+
+
+    //----------------------------------------------------------------------------------------------
+    // codjego do T1
+    //----------------------------------------------------------------------------------------------
+
     public void VirtualMachine(string filePath)
     {
         Dictionary<string, int> registradores = new Dictionary<string, int>();
@@ -338,6 +403,7 @@ public class CPU
             Console.WriteLine(memoria[i].ToString() + "\n");
         }
     }
+
 
     public void ReadFile(string filePath, PosicaoDeMemoria[] memoria)
     {
