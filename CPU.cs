@@ -5,32 +5,11 @@ using System.Linq;
 
 public class CPU
 {
-    private const int TAMANHO_MAXIMO_POSICAOS_DE_MEMORIA = 1024;
-
-    private const int TAMANHO_MAXIMO_PARTICAOS_PERMITIDO = 8;
-
-    public List<ParticaoMemoria> Memoria { get; set; }
+    public GerenteDeMemoria Gerente { get; set; }
 
     public CPU(int numeroParticoes)
     {
-        if (numeroParticoes % 2 != 0) //talllvez isso nao esteja tao certo, ver dps
-        {
-            throw new ArgumentException("Não é possivel criar um número impar de partições, use apenas números 2^n. Encerrando execução");
-        }
-
-        if (numeroParticoes > TAMANHO_MAXIMO_PARTICAOS_PERMITIDO)
-        {
-            throw new ArgumentException($"O tamanho máximo de partições permitido apra uma CPU é de [{TAMANHO_MAXIMO_PARTICAOS_PERMITIDO}]. Encerrando execução.");
-        }
-
-        Memoria = new List<ParticaoMemoria>();
-
-        int tamanhoIndividualCadaParticao = TAMANHO_MAXIMO_POSICAOS_DE_MEMORIA / numeroParticoes;
-
-        for (int i = 0; i < numeroParticoes; i++)
-        {
-            Memoria.Add(new ParticaoMemoria(i, tamanhoIndividualCadaParticao));
-        }
+        Gerente = new GerenteDeMemoria(numeroParticoes);
     }
 
     public void NewCPUVirtualMachine(string filePath)
@@ -51,46 +30,16 @@ public class CPU
         string value = string.Empty;
         bool logicalResult = false;
 
-        int particaoAleatoria = new System.Random().Next(0, Memoria.Count); // ver se ta certo msm
+        // int particaoAleatoria = new System.Random().Next(0, Memoria.Count); // ver se ta certo msm
 
-        NewCPUReadFile(filePath, Memoria[particaoAleatoria]);
+        // NewCPUReadFile(filePath, Memoria[particaoAleatoria]);
 
-        PosicaoDeMemoria currentLine = Memoria[particaoAleatoria].MemoriaParticao[];
+        //PosicaoDeMemoria currentLine = Memoria[particaoAleatoria].MemoriaParticao[];
 
 
     }
 
-    public void NewCPUReadFile(string filePath, ParticaoMemoria particao)
-    {
-        string[] fileContent = File.ReadAllLines(filePath);
-
-        for (int i = 0; i < fileContent.Length; i++)
-        {
-            string[] dataContent = fileContent[i].Split(' ');
-
-            string command = dataContent[0];
-
-            if (command == "STOP")
-            {
-                particao.MemoriaParticao[i] = new PosicaoDeMemoria
-                {
-                    OPCode = "STOP"
-                };
-
-                continue;
-            }
-
-            string[] parameters = dataContent[1].Replace(" ", "").Split(',');
-
-            particao.MemoriaParticao[i] = new PosicaoDeMemoria
-            {
-                OPCode = command,
-                Reg1 = parameters[0].Contains("r") || parameters[0].Contains("[") ? parameters[0] : null,
-                Reg2 = parameters[1].Contains("r") || parameters[1].Contains("[") ? parameters[1] : null,
-                Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
-            };
-        }
-    }
+    
 
 
 

@@ -2,6 +2,12 @@ using System;
 
 public class PosicaoDeMemoria
 {
+    public int MinRange { get; set; }
+
+    public int MaxRange { get; set; }
+
+    public bool Status { get; set; }
+
     public string OPCode { get; set; }
 
     public string Reg1 { get; set; }
