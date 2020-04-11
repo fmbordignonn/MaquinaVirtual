@@ -32,7 +32,7 @@ public class CPU
 
         // int particaoAleatoria = new System.Random().Next(0, Memoria.Count); // ver se ta certo msm
 
-        // NewCPUReadFile(filePath, Memoria[particaoAleatoria]);
+        // NewCPUReadFile(filePath, particaoAleatoria);
 
         //PosicaoDeMemoria currentLine = Memoria[particaoAleatoria].MemoriaParticao[];
 

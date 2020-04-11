@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 public class GerenteDeMemoria
 {
@@ -30,24 +31,23 @@ public class GerenteDeMemoria
             Particoes[i] = new ParticaoMemoria();
         }
 
+        // // LDI 50
+        // var ss = CalculaEnderecoMemoria(2, 50);
 
-
-
-
-
-
-        // LDI 50
-        var ss = CalculaEnderecoMemoria(2, 50);
-
-        var PP = CalculaEnderecoMax(1);
+        // var PP = CalculaEnderecoMax(1);
     }
 
 
 
+    public int CalculaOffset(int particao)
+    {
+        return particao * (Memoria.Length / Particoes.Length);
+    }
+
     //LDI 50
     public int CalculaEnderecoMemoria(int particao, int endereco)
     {
-        int offset = particao * (Memoria.Length / Particoes.Length);
+        int offset = CalculaOffset(particao);
 
         // ver se ta certo pois array inicia em 0
         int enderecoCorrigido = offset + endereco;
@@ -74,35 +74,40 @@ public class GerenteDeMemoria
 
 
 
-    // public void NewCPUReadFile(string filePath, ParticaoMemoria particao)
-    // {
-    //     string[] fileContent = File.ReadAllLines(filePath);
+    public void NewCPUReadFile(string filePath, int particao)
+    {
+        string[] fileContent = File.ReadAllLines(filePath);
 
-    //     for (int i = 0; i < fileContent.Length; i++)
-    //     {
-    //         string[] dataContent = fileContent[i].Split(' ');
+        int offsetParticao = CalculaOffset(particao);
 
-    //         string command = dataContent[0];
+        for (int i = 0; i < fileContent.Length; i++)
+        {
+            string[] dataContent = fileContent[i].Split(' ');
 
-    //         if (command == "STOP")
-    //         {
-    //             particao.MemoriaParticao[i] = new PosicaoDeMemoria
-    //             {
-    //                 OPCode = "STOP"
-    //             };
+            string command = dataContent[0];
 
-    //             continue;
-    //         }
+            if (command == "STOP")
+            {
+                Memoria[i + offsetParticao] = new PosicaoDeMemoria
+                {
+                    OPCode = "STOP"
+                };
 
-    //         string[] parameters = dataContent[1].Replace(" ", "").Split(',');
+                continue;
+            }
 
-    //         particao.MemoriaParticao[i] = new PosicaoDeMemoria
-    //         {
-    //             OPCode = command,
-    //             Reg1 = parameters[0].Contains("r") || parameters[0].Contains("[") ? parameters[0] : null,
-    //             Reg2 = parameters[1].Contains("r") || parameters[1].Contains("[") ? parameters[1] : null,
-    //             Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
-    //         };
-    //     }
-    // }
+            string[] parameters = dataContent[1].Replace(" ", "").Split(',');
+
+            Memoria[i + offsetParticao] = new PosicaoDeMemoria
+            {
+                OPCode = command,
+                Reg1 = parameters[0].Contains("r") || parameters[0].Contains("[") ? parameters[0] : null,
+                Reg2 = parameters[1].Contains("r") || parameters[1].Contains("[") ? parameters[1] : null,
+                Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
+            };
+
+            // indicando que a partição já está em uso
+            Particoes[particao].Status = Status.ALOCADO;
+        }
+    }
 }
