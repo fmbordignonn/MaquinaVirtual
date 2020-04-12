@@ -27,9 +27,10 @@ public class CPU
 
         string value = string.Empty;
         bool logicalResult = false;
+        int memoryPosition = 0;
 
         Random r = new Random();
-        int particaoAleatoria = r.Next(0, GerenteMemoria.Particoes.Length);
+        int particaoAleatoria = 1;//r.Next(0, GerenteMemoria.Particoes.Length);
 
         // enquanto a partição aleatoria nao estiver livre, procurar uma próxima aleatoria
         while (!GerenteMemoria.ParticaoEstaLivre(particaoAleatoria))
@@ -52,14 +53,16 @@ public class CPU
 
             switch (currentLine.OPCode)
             {
+                // faz PC pular direto pra uma linha k
+                // JMP 12
                 case "JMP":
-                    pc = Convert.ToInt32(currentLine.Parameter);
+                    pc = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, Convert.ToInt32(currentLine.Parameter));
                     break;
 
                 // faz PC pular direto pra linha contida no registrador r
                 // JMPI r1
                 case "JMPI":
-                    pc = Convert.ToInt32(registradores[currentLine.Reg1]);
+                    pc = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, Convert.ToInt32(registradores[currentLine.Reg1]));
                     break;
 
                 // faz PC pular direto pra linha contida no registrador rx, caso ry seja maior que 0
@@ -67,7 +70,7 @@ public class CPU
                 case "JMPIG":
                     if (Convert.ToInt32(registradores[currentLine.Reg2]) > 0)
                     {
-                        pc = Convert.ToInt32(registradores[currentLine.Reg1]);
+                        pc = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, Convert.ToInt32(registradores[currentLine.Reg1]));
                         currentLine = GerenteMemoria.Memoria[pc];
                     }
                     else
@@ -82,7 +85,7 @@ public class CPU
                 case "JMPIL":
                     if (Convert.ToInt32(registradores[currentLine.Reg2]) < 0)
                     {
-                        pc = Convert.ToInt32(registradores[currentLine.Reg1]);
+                        pc = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, Convert.ToInt32(registradores[currentLine.Reg1]));
                         currentLine = GerenteMemoria.Memoria[pc];
                     }
                     else
@@ -97,7 +100,7 @@ public class CPU
                 case "JMPIE":
                     if (Convert.ToInt32(registradores[currentLine.Reg2]) == 0)
                     {
-                        pc = Convert.ToInt32(registradores[currentLine.Reg1]);
+                        pc = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, Convert.ToInt32(registradores[currentLine.Reg1]));
                         currentLine = GerenteMemoria.Memoria[pc];
                     }
                     else
@@ -107,6 +110,8 @@ public class CPU
                     }
                     break;
 
+                // realiza a soma imediata de um valor k no registrador r
+                //ADDI r1,1
                 case "ADDI":
                     registradores[currentLine.Reg1] += currentLine.Parameter;
 
@@ -131,9 +136,11 @@ public class CPU
                     currentLine = GerenteMemoria.Memoria[pc];
                     break;
 
+                // carrega um valor da memoria em um registrador
+                // LDD r1,[50]
                 case "LDD":
                     value = currentLine.Reg2.Trim(new char[] { '[', ']' });
-                    int memoryPosition = Convert.ToInt32(value);
+                    memoryPosition = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, Convert.ToInt32(value));
 
                     if (GerenteMemoria.Memoria[memoryPosition].OPCode == "DATA")
                     {
@@ -148,12 +155,15 @@ public class CPU
                     currentLine = GerenteMemoria.Memoria[pc];
                     break;
 
+                //asdiapiofjasifaf-0--------------------------------------------
+
                 // guarda na memoria um valor contido no registrador r
                 // STD [52],r1
                 case "STD":
                     value = currentLine.Reg1.Trim(new char[] { '[', ']' });
+                    memoryPosition = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, Convert.ToInt32(value));
 
-                    GerenteMemoria.Memoria[Convert.ToInt32(value)] = new PosicaoDeMemoria
+                    GerenteMemoria.Memoria[memoryPosition] = new PosicaoDeMemoria
                     {
                         OPCode = "DATA",
                         Parameter = registradores[currentLine.Reg2]
@@ -228,8 +238,9 @@ public class CPU
                 // LDX rx,[ry]
                 case "LDX":
                     value = currentLine.Reg2.Trim(new char[] { '[', ']' });
+                    memoryPosition = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, registradores[value]);
 
-                    registradores[currentLine.Reg1] = GerenteMemoria.Memoria[registradores[value]].Parameter;
+                    registradores[currentLine.Reg1] = GerenteMemoria.Memoria[memoryPosition].Parameter;
 
                     pc++;
                     break;
@@ -238,7 +249,7 @@ public class CPU
                 // STX [rx],ry
                 case "STX":
                     value = currentLine.Reg1.Trim(new char[] { '[', ']' });
-
+                    memoryPosition = GerenteMemoria.CalculaEnderecoMemoria(particaoAleatoria, registradores[value]);
 
                     // pelo oq eu entendi esse if checa se a posicao é destinada para guardar dados e garante que nao é codigo
                     // porém tem uma linha no P1 assim:
@@ -248,7 +259,7 @@ public class CPU
 
                     //if (memoria[Convert.ToInt32(value)].OPCode == "DATA")
                     //{
-                    GerenteMemoria.Memoria[registradores[value]] = new PosicaoDeMemoria
+                    GerenteMemoria.Memoria[memoryPosition] = new PosicaoDeMemoria
                     {
                         OPCode = "DATA",
                         Parameter = registradores[currentLine.Reg2]

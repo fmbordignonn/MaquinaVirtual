@@ -64,8 +64,12 @@ public class GerenteDeMemoria
         return enderecoCorrigido;
     }
 
-    public int CalculaEnderecoMax(int particao)
+    private int CalculaEnderecoMax(int particao)
     {
+        // Como o array de partiçoes inicia em 0, se nao realizarmos a operação ++ o calculo de boundsRegister ia pegar o endereço mínimo ao invés do máximo,
+        // Exemplo, caso nao tivesse esse comando abaixo, na partição 1 (segunda do array) o calculo iria retornar 127, ao invés de 255, que é realmente o endereço maximo dessa
+        // partição em específico
+        particao++;
 
         // ve se precisa do -1
         int boundsRegister = particao * (Memoria.Length / Particoes.Length) - 1;
@@ -101,16 +105,29 @@ public class GerenteDeMemoria
 
             string[] parameters = dataContent[1].Replace(" ", "").Split(',');
 
-            Memoria[i + offsetParticao] = new PosicaoDeMemoria
+            if (command == "JMP" || command == "JMPI")
             {
-                OPCode = command,
-                Reg1 = parameters[0].Contains("r") || parameters[0].Contains("[") ? parameters[0] : null,
-                Reg2 = parameters[1].Contains("r") || parameters[1].Contains("[") ? parameters[1] : null,
-                Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
-            };
+                Memoria[i + offsetParticao] = new PosicaoDeMemoria
+                {
+                    OPCode = command,
+                    Reg1 = parameters[0].Contains("r") ? parameters[0] : null,
+                    Parameter = Int32.TryParse(parameters[0], out int value) ? value : 0
+                };
+            }
+            else
+            {
 
-            // indicando que a partição já está alocada
-            Particoes[particao].Status = Status.ALOCADO;
+                Memoria[i + offsetParticao] = new PosicaoDeMemoria
+                {
+                    OPCode = command,
+                    Reg1 = parameters[0].Contains("r") || parameters[0].Contains("[") ? parameters[0] : null,
+                    Reg2 = parameters[1].Contains("r") || parameters[1].Contains("[") ? parameters[1] : null,
+                    Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
+                };
+            }
+
         }
+        // indicando que a partição já está alocada
+        Particoes[particao].Status = Status.ALOCADO;
     }
 }
