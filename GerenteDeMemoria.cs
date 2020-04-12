@@ -81,6 +81,33 @@ public class GerenteDeMemoria
         return Particoes[particao].Status == Status.DESALOCADO;
     }
 
+    public void LoadProgramsInDifferentPartitions()
+    {
+        string filePath;
+
+        // de 1 a 5 pq to usando o i pra pegar todos os 4 txt
+        // azar vai brasil to só pelo iaiaô
+        for (int i = 1; i < 5; i++)
+        {
+            filePath = Environment.CurrentDirectory + @"\programs\P";
+
+            Random r = new Random();
+            int particaoAleatoria = 1;//r.Next(0, GerenteMemoria.Particoes.Length);
+
+            // enquanto a partição aleatoria nao estiver livre, procurar uma próxima aleatoria
+            while (!ParticaoEstaLivre(particaoAleatoria))
+            {
+                particaoAleatoria = r.Next(0, Particoes.Length);
+            }
+
+            filePath = filePath + i + ".txt";
+
+            ReadFile(filePath, particaoAleatoria);
+        }
+
+        
+    }
+
     public void ReadFile(string filePath, int particao)
     {
         string[] fileContent = File.ReadAllLines(filePath);
