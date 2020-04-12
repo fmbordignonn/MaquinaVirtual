@@ -72,9 +72,12 @@ public class GerenteDeMemoria
         return boundsRegister;
     }
 
+    public bool ParticaoEstaLivre(int particao)
+    {
+        return Particoes[particao].Status == Status.DESALOCADO;
+    }
 
-
-    public void NewCPUReadFile(string filePath, int particao)
+    public void ReadFile(string filePath, int particao)
     {
         string[] fileContent = File.ReadAllLines(filePath);
 
@@ -106,7 +109,7 @@ public class GerenteDeMemoria
                 Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
             };
 
-            // indicando que a partição já está em uso
+            // indicando que a partição já está alocada
             Particoes[particao].Status = Status.ALOCADO;
         }
     }
