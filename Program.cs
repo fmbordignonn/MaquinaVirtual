@@ -23,12 +23,12 @@ namespace ConsoleApp1
                 Console.WriteLine("0 - exit");
                 Console.WriteLine("---------------------------------\n");
                 Console.WriteLine("Digite o programa que deseja executar");
-                input = "3";//Console.ReadLine();
+                input = "1";//Console.ReadLine();
 
                 switch (input)
                 {
                     case "1":
-                        cpu.NewCPUVirtualMachine(filePath + "P1.txt");
+                        cpu.loadProgramsAndCreatePCBs();
                         break;
 
                     case "2":

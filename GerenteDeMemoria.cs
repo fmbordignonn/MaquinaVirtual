@@ -30,14 +30,12 @@ public class GerenteDeMemoria
         {
             Particoes[i] = new ParticaoMemoria();
         }
-
-        // // LDI 50
-        // var ss = CalculaEnderecoMemoria(2, 50);
-
-        // var PP = CalculaEnderecoMax(1);
     }
 
-
+    public bool ParticaoEstaLivre(int particao)
+    {
+        return Particoes[particao].Status == Status.DESALOCADO;
+    }
 
     public int CalculaOffset(int particao)
     {
@@ -64,48 +62,16 @@ public class GerenteDeMemoria
         return enderecoCorrigido;
     }
 
-    private int CalculaEnderecoMax(int particao)
+    // CalculaEnderecoMax tá funcionando
+    public int CalculaEnderecoMax(int particao)
     {
         // Como o array de partiçoes inicia em 0, se nao realizarmos a operação ++ o calculo de boundsRegister ia pegar o endereço mínimo ao invés do máximo,
         // Exemplo, caso nao tivesse esse comando abaixo, na partição 1 (segunda do array) o calculo iria retornar 127, ao invés de 255, que é realmente o endereço maximo dessa
         // partição em específico
         particao++;
 
-        // ve se precisa do -1
         int boundsRegister = particao * (Memoria.Length / Particoes.Length) - 1;
         return boundsRegister;
-    }
-
-    public bool ParticaoEstaLivre(int particao)
-    {
-        return Particoes[particao].Status == Status.DESALOCADO;
-    }
-
-    public void LoadProgramsInDifferentPartitions()
-    {
-        string filePath;
-
-        // de 1 a 5 pq to usando o i pra pegar todos os 4 txt
-        // azar vai brasil to só pelo iaiaô
-        for (int i = 1; i < 5; i++)
-        {
-            filePath = Environment.CurrentDirectory + @"\programs\P";
-
-            Random r = new Random();
-            int particaoAleatoria = 1;//r.Next(0, GerenteMemoria.Particoes.Length);
-
-            // enquanto a partição aleatoria nao estiver livre, procurar uma próxima aleatoria
-            while (!ParticaoEstaLivre(particaoAleatoria))
-            {
-                particaoAleatoria = r.Next(0, Particoes.Length);
-            }
-
-            filePath = filePath + i + ".txt";
-
-            ReadFile(filePath, particaoAleatoria);
-        }
-
-        
     }
 
     public void ReadFile(string filePath, int particao)

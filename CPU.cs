@@ -15,16 +15,19 @@ public class CPU
         ProcessControlBLocks = new ProcessControlBLock[numeroParticoes]; 
     }
 
-    public void loadProgramsAndCreateProcess()
+    public void loadProgramsAndCreatePCBs()
     {
         string filePath;
+        Random r = new Random();
+
+        int offSet;
+        int enderecoMax;
 
         // de 1 a 5 pq to usando o i pra pegar todos os 4 txt
         for (int i = 1; i < 5; i++)
         {
             filePath = Environment.CurrentDirectory + @"\programs\P";
 
-            Random r = new Random();
             int particaoAleatoria = 1;//r.Next(0, GerenteMemoria.Particoes.Length);
 
             // enquanto a partição aleatoria nao estiver livre, procurar uma próxima aleatoria
@@ -37,11 +40,23 @@ public class CPU
 
             GerenteMemoria.ReadFile(filePath, particaoAleatoria);
 
-            // dps de carregar na memoria, cria Pcb do processo na mesma posiçao da partição com id P1,P2,etc
+            // dps de carregar na memoria, cria PCB do processo na mesma posiçao da partição com id P1,P2,etc
+            // nao sei se dessa forma é bom
             ProcessControlBLocks [particaoAleatoria] = new ProcessControlBLock("P" + i);
+
+            offSet = GerenteMemoria.CalculaOffset(particaoAleatoria);
+            ProcessControlBLocks [particaoAleatoria].pc = offSet;
+
+            ProcessControlBLocks [particaoAleatoria].offSet = offSet;
+
+            enderecoMax = GerenteMemoria.CalculaEnderecoMax(particaoAleatoria);
+            ProcessControlBLocks [particaoAleatoria].enderecoLimite = enderecoMax;
         }
+
+    
+        
     }
-    public void CPUWithProcessControlBlock(ProcessControlBLock pcb)
+   /* public void CPUWithProcessControlBlock(ProcessControlBLock pcb)
     {
 
         GerenteMemoria.LoadProgramsInDifferentPartitions();
@@ -51,7 +66,7 @@ public class CPU
         int memoryPosition = 0;
         
 
-        //int offsetParticao = GerenteMemoria.CalculaOffset(particaoAleatoria);
+        //int offsetParticao = GerenteMemoria.CalculaEnderecoMax(particaoAleatoria);
 
         //PC precisa ser a primeira posição da partição em questão que está sendo usada (confirmar depois) 
         //int pc = offsetParticao;
@@ -283,6 +298,7 @@ public class CPU
                            throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
                        }
                        */
+                       /*
                     pc++;
                     break;
 
@@ -347,6 +363,7 @@ public class CPU
         }
 
     }
+    */
     public void NewCPUVirtualMachine(string filePath)
     {
         Dictionary<string, int> registradores = new Dictionary<string, int>();
@@ -375,7 +392,7 @@ public class CPU
 
         GerenteMemoria.ReadFile(filePath, particaoAleatoria);
 
-        int offsetParticao = GerenteMemoria.CalculaOffset(particaoAleatoria);
+        int offsetParticao = GerenteMemoria.CalculaEnderecoMax(particaoAleatoria);
 
         //PC precisa ser a primeira posição da partição em questão que está sendo usada (confirmar depois) 
         int pc = offsetParticao;

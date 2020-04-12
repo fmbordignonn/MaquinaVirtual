@@ -2,12 +2,6 @@ using System;
 
 public class PosicaoDeMemoria
 {
-    public int MinRange { get; set; }
-
-    public int MaxRange { get; set; }
-
-    public bool Status { get; set; }
-
     public string OPCode { get; set; }
 
     public string Reg1 { get; set; }
@@ -20,5 +14,4 @@ public class PosicaoDeMemoria
     {
         return $"OPCode: {OPCode}\nRegistrador 1: {Reg1}\nRegistrador 2: {Reg2}\nParameter: {Parameter}";
     }
-
 }

@@ -7,12 +7,13 @@ public class ProcessControlBLock
 {
     public Dictionary<string, int> registradores { get; set; }
 
-    // nao sei se processId é publico
-    public string processId { get; set; }
+    public string processId { get;}
 
     public State State { get; set; }
 
     public int pc { get; set; }
+
+    public int offSet { get; set; }
 
     public int enderecoLimite { get; set; }
 
@@ -33,7 +34,6 @@ public class ProcessControlBLock
         this.processId = processId;
 
         State = State.READY;
-
     }
     
 }
