@@ -105,6 +105,9 @@ public class GerenteDeMemoria
 
             string[] parameters = dataContent[1].Replace(" ", "").Split(',');
 
+            //avaliar swap
+
+
             if (command == "JMP" || command == "JMPI")
             {
                 Memoria[i + offsetParticao] = new PosicaoDeMemoria
@@ -116,7 +119,6 @@ public class GerenteDeMemoria
             }
             else
             {
-
                 Memoria[i + offsetParticao] = new PosicaoDeMemoria
                 {
                     OPCode = command,

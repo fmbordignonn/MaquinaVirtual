@@ -23,25 +23,24 @@ namespace ConsoleApp1
                 Console.WriteLine("0 - exit");
                 Console.WriteLine("---------------------------------\n");
                 Console.WriteLine("Digite o programa que deseja executar");
-                input = "1";//Console.ReadLine();
+                input = "3";//Console.ReadLine();
 
                 switch (input)
                 {
                     case "1":
-                        //cpu.VirtualMachine(filePath + "P1.txt");
                         cpu.NewCPUVirtualMachine(filePath + "P1.txt");
                         break;
 
                     case "2":
-                        cpu.VirtualMachine(filePath + "P2.txt");
+                        cpu.NewCPUVirtualMachine(filePath + "P2.txt");
                         break;
 
                     case "3":
-                        cpu.VirtualMachine(filePath + "P3.txt");
+                        cpu.NewCPUVirtualMachine(filePath + "P3.txt");
                         break;
 
                     case "4":
-                        cpu.VirtualMachine(filePath + "P4.txt");
+                        cpu.NewCPUVirtualMachine(filePath + "P4.txt");
                         break;
 
                     default:

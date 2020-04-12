@@ -310,6 +310,29 @@ public class CPU
             }
         }
 
+        Console.WriteLine("Status final dos registradores:\n");
+
+        foreach (var item in registradores)
+        {
+            Console.WriteLine("--------------------------------------------\n");
+
+            Console.WriteLine($"Registrador [{item.Key}] - valor final [{item.Value}]\n");
+        }
+
+        Console.WriteLine("--------------------------------------------\n");
+
+        Console.WriteLine("Status final das posições de memória (não nulas)\n");
+
+        for (int i = 0; i < GerenteMemoria.Memoria.Length; i++)
+        {
+            if (GerenteMemoria.Memoria[i] == null)
+            {
+                continue;
+            }
+            
+            Console.WriteLine($"Posição de memória [{i}]:");
+            Console.WriteLine(GerenteMemoria.Memoria[i].ToString() + "\n");
+        }
     }
 
 
