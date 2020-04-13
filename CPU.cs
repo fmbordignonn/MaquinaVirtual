@@ -6,6 +6,8 @@ using System.Linq;
 
 public class CPU
 {
+    private const int FATIA_DE_TEMPO = 10;
+
     public GerenteDeMemoria GerenteMemoria { get; set; }
 
     public ProcessControlBlock [] ProcessControlBlocks { get; set; }
@@ -18,8 +20,6 @@ public class CPU
         ProcessControlBlocks = new ProcessControlBlock[numeroParticoes]; 
 
         loadProgramsAndCreatePCBs();
-
-        createProcessQueue();
     }
 
     public void loadProgramsAndCreatePCBs()
@@ -59,63 +59,92 @@ public class CPU
             enderecoMax = GerenteMemoria.CalculaEnderecoMax(particaoAleatoria);
             ProcessControlBlocks[particaoAleatoria].EnderecoLimite = enderecoMax;
         }
+
+        createProcessQueue();
     }
 
     public void createProcessQueue()
     {
         fila = new Queue <ProcessControlBlock>();
+        ProcessControlBlock pcb;
 
-        // poe na fila todos os PCBs
+        Console.WriteLine("Fila de execução dos processos");
+        Console.WriteLine("---------------------------------");
+
+        // poe na fila todos os PCBs e printa o estado atual de cada um
         for (int i = 0; i < ProcessControlBlocks.Length; i++)
         {
-            if (ProcessControlBlocks[i] != null)
+            pcb = ProcessControlBlocks[i];
+
+            if (pcb != null)
             {
-                fila.Enqueue(ProcessControlBlocks[i]);
+                fila.Enqueue(pcb);
+                Console.WriteLine($"Process Id: {pcb.ProcessId} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
             }
         }
 
-        ProcessControlBlock pcb;
+        Console.WriteLine("\nInicio do execução de time-slice");
+        Console.WriteLine("---------------------------------");
+
+        // retira um de cada vez da fila e roda na CPU de acordo com a fatia de tempo
         while (fila.Count != 0)
         {
             pcb = fila.Dequeue();
             CPUWithProcessControlBlock(pcb);
 
+            if (pcb.State == State.WAITING)
+            {
+                fila.Enqueue(pcb);
+            }
+
+            Console.WriteLine($"Process Id: {pcb.ProcessId} ; State: {pcb.State}\n");
         }
 
+        // no final de tudo é printado o valor dos registradores dos PCBs e
+        // as devidas posições de memórias ocupadas
+         for (int i = 0; i < ProcessControlBlocks.Length; i++)
+        {
+            pcb = ProcessControlBlocks[i];
 
-
+            if (pcb != null)
+            {
+                printRegistradoresEMemoria(pcb);
+            }
+        }
     }
+
     public void CPUWithProcessControlBlock(ProcessControlBlock pcb)
     {
 
+        pcb.State = State.RUNNING;
+        int ComandsCount = 0;
+
+        Console.WriteLine($"Process Id: {pcb.ProcessId} ; State: {pcb.State}");
+        
         string value = string.Empty;
         bool logicalResult = false;
         int memoryPosition = 0;
-        
 
-        int pc = pcb.Pc;
-        
+        PosicaoDeMemoria currentLine = GerenteMemoria.Memoria[pcb.Pc];
 
-        PosicaoDeMemoria currentLine = GerenteMemoria.Memoria[pc];
 
-        // diferente de STOP e do final da fatia de tempo
-        // quando chega no STOP bota HALTED
-        while (currentLine.OPCode != "STOP")
+        while (currentLine.OPCode != "STOP" && ComandsCount != FATIA_DE_TEMPO)
         {
-            currentLine = GerenteMemoria.Memoria[pc];
+            currentLine = GerenteMemoria.Memoria[pcb.Pc];
+            ComandsCount++;
 
             switch (currentLine.OPCode)
             {
                 // faz PC pular direto pra uma linha k
                 // JMP 12
                 case "JMP":
-                    pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Parameter));
+                    pcb.Pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Parameter));
                     break;
 
                 // faz PC pular direto pra linha contida no registrador r
                 // JMPI r1
                 case "JMPI":
-                    pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
+                    pcb.Pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
                     break;
 
                 // faz PC pular direto pra linha contida no registrador rx, caso ry seja maior que 0
@@ -123,13 +152,13 @@ public class CPU
                 case "JMPIG":
                     if (Convert.ToInt32(pcb.Registradores[currentLine.Reg2]) > 0)
                     {
-                        pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
-                        currentLine = GerenteMemoria.Memoria[pc];
+                        pcb.Pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
+                        currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     }
                     else
                     {
-                        pc++;
-                        currentLine = GerenteMemoria.Memoria[pc];
+                        pcb.Pc++;
+                        currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     }
                     break;
 
@@ -138,13 +167,13 @@ public class CPU
                 case "JMPIL":
                     if (Convert.ToInt32(pcb.Registradores[currentLine.Reg2]) < 0)
                     {
-                        pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
-                        currentLine = GerenteMemoria.Memoria[pc];
+                        pcb.Pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
+                        currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     }
                     else
                     {
-                        pc++;
-                        currentLine = GerenteMemoria.Memoria[pc];
+                        pcb.Pc++;
+                        currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     }
                     break;
 
@@ -153,13 +182,13 @@ public class CPU
                 case "JMPIE":
                     if (Convert.ToInt32(pcb.Registradores[currentLine.Reg2]) == 0)
                     {
-                        pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
-                        currentLine = GerenteMemoria.Memoria[pc];
+                        pcb.Pc = GerenteMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(pcb.Registradores[currentLine.Reg1]));
+                        currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     }
                     else
                     {
-                        pc++;
-                        currentLine = GerenteMemoria.Memoria[pc];
+                        pcb.Pc++;
+                        currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     }
                     break;
 
@@ -168,7 +197,7 @@ public class CPU
                 case "ADDI":
                     pcb.Registradores[currentLine.Reg1] += currentLine.Parameter;
 
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // realiza a subtração imediata de um valor k no registrador r
@@ -176,8 +205,8 @@ public class CPU
                 case "SUBI":
                     pcb.Registradores[currentLine.Reg1] -= currentLine.Parameter;
 
-                    pc++;
-                    currentLine = GerenteMemoria.Memoria[pc];
+                    pcb.Pc++;
+                    currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     break;
 
                 // carrega um valor k em um registrador
@@ -185,8 +214,8 @@ public class CPU
                 case "LDI":
                     pcb.Registradores[currentLine.Reg1] = currentLine.Parameter;
 
-                    pc++;
-                    currentLine = GerenteMemoria.Memoria[pc];
+                    pcb.Pc++;
+                    currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     break;
 
                 // carrega um valor da memoria em um registrador
@@ -204,8 +233,8 @@ public class CPU
                         throw new InvalidOperationException("Não é possivel ler dados de uma posição de memória com OPCode diferente de [DATA]. Encerrando execução");
                     }
 
-                    pc++;
-                    currentLine = GerenteMemoria.Memoria[pc];
+                    pcb.Pc++;
+                    currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     break;
 
                 // guarda na memoria um valor contido no registrador r
@@ -220,8 +249,8 @@ public class CPU
                         Parameter = pcb.Registradores[currentLine.Reg2]
                     };
 
-                    pc++;
-                    currentLine = GerenteMemoria.Memoria[pc];
+                    pcb.Pc++;
+                    currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     break;
 
                 // faz a operaçao: rx = rx + ry
@@ -229,7 +258,7 @@ public class CPU
                 case "ADD":
                     pcb.Registradores[currentLine.Reg1] += pcb.Registradores[currentLine.Reg2];
 
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // faz a operaçao: rx = rx - ry
@@ -237,7 +266,7 @@ public class CPU
                 case "SUB":
                     pcb.Registradores[currentLine.Reg1] -= pcb.Registradores[currentLine.Reg2];
 
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // faz a operaçao: rx = rx * ry
@@ -245,8 +274,8 @@ public class CPU
                 case "MULT":
                     pcb.Registradores[currentLine.Reg1] *= pcb.Registradores[currentLine.Reg2];
 
-                    pc++;
-                    currentLine = GerenteMemoria.Memoria[pc];
+                    pcb.Pc++;
+                    currentLine = GerenteMemoria.Memoria[pcb.Pc];
                     break;
 
                 // faz a operaçao: rx = rx AND k
@@ -264,7 +293,7 @@ public class CPU
                         throw new ArgumentException("O registrador não contém um valor lógico válido");
                     }
 
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // faz a operaçao: rx = rx OR k
@@ -282,7 +311,7 @@ public class CPU
                         throw new ArgumentException("O registrador não contém um valor lógico válido");
                     }
 
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // carrega em rx o dado contido na posiçao de memoria indicada por ry
@@ -293,7 +322,7 @@ public class CPU
 
                     pcb.Registradores[currentLine.Reg1] = GerenteMemoria.Memoria[memoryPosition].Parameter;
 
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // guarda na posição de memoria rx o dado contido em ry
@@ -323,7 +352,7 @@ public class CPU
                        }
                        */
                        
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // troca os valores dos registradores; r7←r3, r6←r2, r5←r1, r4←r0
@@ -352,17 +381,31 @@ public class CPU
                             throw new ArgumentException($"Não é possível fazer SWAP conm o registrador [{currentLine.Reg1}]");
                     }
 
-                    pc++;
+                    pcb.Pc++;
                     break;
 
                 // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
                 default:
                     throw new ArgumentException($"Não foi possível encontrar o comando [{currentLine.OPCode}]");
-
             }
         }
 
-        Console.WriteLine("Status final dos registradores:\n");
+        if (currentLine.OPCode == "STOP")
+        {
+            pcb.State = State.HALTED;
+        }
+        else
+        {
+            pcb.State = State.WAITING;
+        }
+    }
+
+    public void printRegistradoresEMemoria(ProcessControlBlock pcb)
+    {
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine($"DADOS DO PROCESSO: {pcb.ProcessId}\n");
+        
+        Console.WriteLine("Valores finais dos registradores:");
 
         foreach (var item in pcb.Registradores)
         {
@@ -373,7 +416,7 @@ public class CPU
 
         Console.WriteLine("--------------------------------------------\n");
 
-        Console.WriteLine("Status final das posições de memória (não nulas)\n");
+        Console.WriteLine("Status finais das posições de memória (não nulas) da particao\n");
 
         for (int i = pcb.OffSet; i < pcb.EnderecoLimite; i++)
         {
@@ -385,8 +428,8 @@ public class CPU
             Console.WriteLine($"Posição de memória [{i}]:");
             Console.WriteLine(GerenteMemoria.Memoria[i].ToString() + "\n");
         }
-
     }
+
     /*
     public void NewCPUVirtualMachine(string filePath)
     {

@@ -23,7 +23,7 @@ namespace ConsoleApp1
                 Console.WriteLine("0 - exit");
                 Console.WriteLine("---------------------------------\n");
                 Console.WriteLine("Digite o programa que deseja executar");
-                input = "1";//Console.ReadLine();
+                input = "0";//Console.ReadLine();
 
                 switch (input)
                 {
