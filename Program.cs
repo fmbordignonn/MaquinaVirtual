@@ -32,15 +32,15 @@ namespace ConsoleApp1
                         break;
 
                     case "2":
-                        cpu.NewCPUVirtualMachine(filePath + "P2.txt");
+                        //cpu.NewCPUVirtualMachine(filePath + "P2.txt");
                         break;
 
                     case "3":
-                        cpu.NewCPUVirtualMachine(filePath + "P3.txt");
+                        //cpu.NewCPUVirtualMachine(filePath + "P3.txt");
                         break;
 
                     case "4":
-                        cpu.NewCPUVirtualMachine(filePath + "P4.txt");
+                        //cpu.NewCPUVirtualMachine(filePath + "P4.txt");
                         break;
 
                     default:

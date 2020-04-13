@@ -8,30 +8,32 @@
 4	LDI r1,50        posiçãp da memoria que vai sendo incrementada
 5	LDI r2,51	 posiçãp da memoria que vai sendo incrementada
 6	LDI r3,10        carrega 10 pq tu quer os 10 primeiros numeros de fibonacci
-7	LDI r4,8	 numero da linha para recomeçar o loop
+7	SUBI r3,1	 pra fechar a sequencia de 10
+8	LDI r4,9	 numero da linha para recomeçar o loop
 
-8	LDX r5,[r1]	 carrega oq tem na posição de memoria do r1 o r5
-9	LDX r6,[r2]	 
-10	ADD r5,r6
-11	ADDI r2,1	 incrementa a posição de memoria
-12	STX [r2],r5	 guarda no posição 52 o resultado de r5
-13	ADDI r1,1	 incrementa o r1 pq tem que anda junto com o r2	
-14	SUBI r3,1	 
-15	JMPIG r4,r3     se 8 > 0, entao pc vai pra linha 8
-16	STOP
+9	LDX r5,[r1]	 carrega oq tem na posição de memoria do r1 o r5
+10	LDX r6,[r2]	 
+11	ADD r5,r6
+12	ADDI r2,1	 incrementa a posição de memoria
+13	STX [r2],r5	 guarda no posição 52 o resultado de r5
+14	ADDI r1,1	 incrementa o r1 pq tem que anda junto com o r2	
+15	SUBI r3,1	 
+16	JMPIG r4,r3     se r3 > 0, entao pc vai pra linha 8
+17	STOP
 
 ------------------------------------------------------------------------------
 -------- P2: faz a sequência de fibonacci de um valor ou -1 se < zero --------
 ------------------------------------------------------------------------------
-LDI r1,10
-LDI r2,19
+LDI r1,10       ---------> aqui que vai o valor
+SUBI r1,1
+LDI r2,20
 JMPIL r2,r1
 		conferiu se nao é menor que 0
 LDI r3,0
 STD [50],r3
 LDI r3,1
 STD [51],r3
-LDI r7,10
+LDI r7,11
 		salvou na memoria os dois primeiros valores e a linha de parada
 SUBI r1,2
 JMPIE r7,r1
@@ -56,7 +58,7 @@ STOP
 ------------------------------------------------------------------------------
 --------------- P3 faz o fatorial de um valor ou -1 se < zero ----------------
 ------------------------------------------------------------------------------
-LDI r1,5	carrega 5 em r1
+LDI r1,5	--------> aqui vai o valor
 LDI r2,13
 LDI r4,7
 LDI r5,11

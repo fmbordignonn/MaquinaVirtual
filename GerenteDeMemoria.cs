@@ -43,18 +43,18 @@ public class GerenteDeMemoria
     }
 
     //LDI 50
-    public int CalculaEnderecoMemoria(int particao, int endereco)
+    public int CalculaEnderecoMemoria(ProcessControlBlock pcb, int endereco)
     {
-        int offset = CalculaOffset(particao);
+        int offset = pcb.OffSet;
 
         // ver se ta certo pois array inicia em 0
         int enderecoCorrigido = offset + endereco;
 
-        int maximumBound = CalculaEnderecoMax(particao);
+        int maximumBound = pcb.EnderecoLimite;
 
         if (enderecoCorrigido > maximumBound)
         {
-            throw new IndexOutOfRangeException($"SEGMENTATION FAULT, o endereço fornecido está fora do limite da partição {particao}");
+            throw new IndexOutOfRangeException($"SEGMENTATION FAULT, o endereço fornecido {enderecoCorrigido} está fora do limite da partição que é {maximumBound}");
         }
 
         // avaliar se precisa ver endereço de memoria negativo, LDI 129 - nao precisa
