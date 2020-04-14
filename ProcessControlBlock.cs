@@ -42,5 +42,5 @@ public enum State
     READY,
     RUNNING,
     WAITING,
-    HALTED
+    FINISHED
 }

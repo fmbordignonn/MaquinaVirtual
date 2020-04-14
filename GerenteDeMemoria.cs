@@ -5,6 +5,8 @@ public class GerenteDeMemoria
 {
     private const int TAMANHO_MAXIMO_POSICOES_DE_MEMORIA = 1024;
 
+    private const int TAMANHO_MINIMO_PARTICOES_PERMITIDO = 4;
+
     private const int TAMANHO_MAXIMO_PARTICOES_PERMITIDO = 8;
 
     public ParticaoMemoria[] Particoes { get; set; }
@@ -13,14 +15,19 @@ public class GerenteDeMemoria
 
     public GerenteDeMemoria(int numeroParticoes)
     {
-        if (numeroParticoes % 2 != 0) //talllvez isso nao esteja tao certo, ver dps
+        if (numeroParticoes % 2 != 0)
         {
             throw new ArgumentException("Não é possivel criar um número impar de partições, use apenas números 2^n. Encerrando execução");
         }
 
         if (numeroParticoes > TAMANHO_MAXIMO_PARTICOES_PERMITIDO)
         {
-            throw new ArgumentException($"O tamanho máximo de partições permitido apra uma CPU é de [{TAMANHO_MAXIMO_PARTICOES_PERMITIDO}]. Encerrando execução.");
+            throw new ArgumentException($"O tamanho máximo de partições permitido para uma CPU é de [{TAMANHO_MAXIMO_PARTICOES_PERMITIDO}]. Encerrando execução.");
+        }
+
+        if (numeroParticoes < TAMANHO_MINIMO_PARTICOES_PERMITIDO)
+        {
+            throw new ArgumentException($"O tamanho mínimo de partições permitido para uma CPU é de [{TAMANHO_MINIMO_PARTICOES_PERMITIDO}]. Encerrando execução.");
         }
 
         Particoes = new ParticaoMemoria[numeroParticoes];
@@ -42,12 +49,10 @@ public class GerenteDeMemoria
         return particao * (Memoria.Length / Particoes.Length);
     }
 
-    //LDI 50
     public int CalculaEnderecoMemoria(ProcessControlBlock pcb, int endereco)
     {
         int offset = pcb.OffSet;
 
-        // ver se ta certo pois array inicia em 0
         int enderecoCorrigido = offset + endereco;
 
         int maximumBound = pcb.EnderecoLimite;
@@ -57,12 +62,9 @@ public class GerenteDeMemoria
             throw new IndexOutOfRangeException($"SEGMENTATION FAULT, o endereço fornecido {enderecoCorrigido} está fora do limite da partição que é {maximumBound}");
         }
 
-        // avaliar se precisa ver endereço de memoria negativo, LDI 129 - nao precisa
-
         return enderecoCorrigido;
     }
 
-    // CalculaEnderecoMax tá funcionando
     public int CalculaEnderecoMax(int particao)
     {
         // Como o array de partiçoes inicia em 0, se nao realizarmos a operação ++ o calculo de boundsRegister ia pegar o endereço mínimo ao invés do máximo,
@@ -96,10 +98,17 @@ public class GerenteDeMemoria
                 continue;
             }
 
+            if (command == "SWAP")
+            {
+                Memoria[i + offsetParticao] = new PosicaoDeMemoria
+                {
+                    OPCode = "SWAP"
+                };
+
+                continue;
+            }
+
             string[] parameters = dataContent[1].Replace(" ", "").Split(',');
-
-            //avaliar swap
-
 
             if (command == "JMP" || command == "JMPI")
             {
@@ -110,6 +119,7 @@ public class GerenteDeMemoria
                     Parameter = Int32.TryParse(parameters[0], out int value) ? value : 0
                 };
             }
+
             else
             {
                 Memoria[i + offsetParticao] = new PosicaoDeMemoria
@@ -120,7 +130,6 @@ public class GerenteDeMemoria
                     Parameter = Int32.TryParse(parameters[1], out int value) ? value : 0
                 };
             }
-
         }
         // indicando que a partição já está alocada
         Particoes[particao].Status = Status.ALOCADO;
