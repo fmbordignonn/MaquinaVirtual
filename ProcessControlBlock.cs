@@ -7,7 +7,7 @@ public class ProcessControlBlock
 {
     public Dictionary<string, int> Registradores { get; set; }
 
-    public string ProcessId { get; }
+    public string ProcessID { get; }
 
     public State State { get; set; }
 
@@ -17,7 +17,7 @@ public class ProcessControlBlock
 
     public int EnderecoLimite { get; set; }
 
-    public ProcessControlBlock(string processId)
+    public ProcessControlBlock(string processID)
     {
 
         Registradores = new Dictionary<string, int>();
@@ -31,7 +31,7 @@ public class ProcessControlBlock
         Registradores.Add("r6", 0);
         Registradores.Add("r7", 0);
 
-        this.ProcessId = processId;
+        this.ProcessID = processID;
 
         State = State.READY;
     }

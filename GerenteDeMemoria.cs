@@ -11,7 +11,9 @@ public class GerenteDeMemoria
 
     public ParticaoMemoria[] Particoes { get; set; }
 
-    public PosicaoDeMemoria[] Memoria { get; set; }
+    public static int NumeroParticoes { get; set; }
+
+    public static PosicaoDeMemoria[] Memoria { get; set; }
 
     public GerenteDeMemoria(int numeroParticoes)
     {
@@ -30,6 +32,8 @@ public class GerenteDeMemoria
             throw new ArgumentException($"O tamanho mínimo de partições permitido para uma CPU é de [{TAMANHO_MINIMO_PARTICOES_PERMITIDO}]. Encerrando execução.");
         }
 
+        NumeroParticoes = numeroParticoes;
+
         Particoes = new ParticaoMemoria[numeroParticoes];
         Memoria = new PosicaoDeMemoria[TAMANHO_MAXIMO_POSICOES_DE_MEMORIA];
 
@@ -44,12 +48,23 @@ public class GerenteDeMemoria
         return Particoes[particao].Status == Status.DESALOCADO;
     }
 
-    public int CalculaOffset(int particao)
+    public static int CalculaOffset(int particao)
     {
-        return particao * (Memoria.Length / Particoes.Length);
+        return particao * (Memoria.Length / NumeroParticoes);
     }
 
-    public int CalculaEnderecoMemoria(ProcessControlBlock pcb, int endereco)
+    public static int CalculaEnderecoMax(int particao)
+    {
+        // Como o array de partiçoes inicia em 0, se nao realizarmos a operação ++ o calculo de boundsRegister ia pegar o endereço mínimo ao invés do máximo,
+        // Exemplo, caso nao tivesse esse comando abaixo, na partição 1 (segunda do array) o calculo iria retornar 127, ao invés de 255, que é realmente o endereço maximo dessa
+        // partição em específico
+        particao++;
+
+        int boundsRegister = particao * (Memoria.Length / NumeroParticoes) - 1;
+        return boundsRegister;
+    }
+
+    public static int CalculaEnderecoMemoria(ProcessControlBlock pcb, int endereco)
     {
         int offset = pcb.OffSet;
 
@@ -64,18 +79,7 @@ public class GerenteDeMemoria
 
         return enderecoCorrigido;
     }
-
-    public int CalculaEnderecoMax(int particao)
-    {
-        // Como o array de partiçoes inicia em 0, se nao realizarmos a operação ++ o calculo de boundsRegister ia pegar o endereço mínimo ao invés do máximo,
-        // Exemplo, caso nao tivesse esse comando abaixo, na partição 1 (segunda do array) o calculo iria retornar 127, ao invés de 255, que é realmente o endereço maximo dessa
-        // partição em específico
-        particao++;
-
-        int boundsRegister = particao * (Memoria.Length / Particoes.Length) - 1;
-        return boundsRegister;
-    }
-
+    
     public void ReadFile(string filePath, int particao)
     {
         string[] fileContent = File.ReadAllLines(filePath);

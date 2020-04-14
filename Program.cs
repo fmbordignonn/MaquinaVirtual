@@ -9,8 +9,9 @@ namespace ConsoleApp1
 
             Console.WriteLine("Digite o numero de partições desejado para a CPU (4, 6 ou 8):");
             //int numeroParticoes = Convert.ToInt32(Console.ReadLine());
-            CPU cpu = new CPU(8);
+            SistemaOperacional SO = new SistemaOperacional(8);
 
+            SO.Start();
         }
     }
 }
