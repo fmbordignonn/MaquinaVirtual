@@ -52,7 +52,7 @@ public class SistemaOperacional
         Queue <ProcessControlBlock> fila = GerenteProcesso.fila;
         ProcessControlBlock pcb;
 
-        Console.WriteLine("\nInicio do execução de time-slice");
+        Console.WriteLine("\nInicio da execução em time-slice");
         Console.WriteLine("---------------------------------");
 
         // retira um de cada vez da fila e roda na CPU de acordo com a fatia de tempo
@@ -101,9 +101,10 @@ public class SistemaOperacional
     public void PrintRegistradoresEMemoria(ProcessControlBlock pcb)
     {
         Console.WriteLine("--------------------------------------------");
-        Console.WriteLine($"DADOS DO PROCESSO: {pcb.ProcessID}\n");
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine($"DADOS DO PROCESSO: {pcb.ProcessID}\n\n");
         
-        Console.WriteLine("Valores finais dos registradores:");
+        Console.WriteLine("Valores finais dos registradores:\n");
 
         foreach (var item in pcb.Registradores)
         {

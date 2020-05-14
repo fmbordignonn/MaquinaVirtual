@@ -12,6 +12,11 @@ public class PosicaoDeMemoria
 
     public override string ToString()
     {
+        if(OPCode == "DATA")
+        {
+            return $"OPCode: {OPCode}\nParameter: {Parameter}";
+        }
+        
         return $"OPCode: {OPCode}\nRegistrador 1: {Reg1}\nRegistrador 2: {Reg2}\nParameter: {Parameter}";
     }
 }
