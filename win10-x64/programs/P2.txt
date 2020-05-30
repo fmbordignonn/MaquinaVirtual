@@ -1,0 +1,23 @@
+LDI r1,10
+SUBI r1,1
+LDI r2,20
+JMPIL r2,r1
+LDI r3,0
+STD [50],r3
+LDI r3,1
+STD [51],r3
+LDI r7,11
+LDI r3,50
+LDI r4,51
+LDX r5,[r3]
+LDX r6,[r4]
+ADD r5,r6
+ADDI r4,1
+STX [r4],r5
+ADDI r3,1
+SUBI r1,1
+JMPIG r7,r1
+STOP
+LDI r3,-1
+STD [50],r3
+STOP
