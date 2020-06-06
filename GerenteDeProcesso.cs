@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 public class GerenteDeProcesso
 {
@@ -7,58 +6,78 @@ public class GerenteDeProcesso
 
     private const int TAMANHO_MAXIMO_PROCESSOS_PERMITIDO = 8;
 
-    public ProcessControlBlock [] PCBs { get; set; }
+    public FilaDeProcesso Fila { get; set; }
 
-    public Queue <ProcessControlBlock> fila { get; set; }
+    public GerenteDeMemoria GerenteMemoria { get; set; }
 
-    public GerenteDeProcesso(int numeroProcessos)
+    public GerenteDeProcesso(int numeroParticoes, FilaDeProcesso filaProntos)
     {
-        if (numeroProcessos > TAMANHO_MAXIMO_PROCESSOS_PERMITIDO)
+        if (numeroParticoes > TAMANHO_MAXIMO_PROCESSOS_PERMITIDO)
         {
             throw new ArgumentException($"O tamanho máximo de partições permitido para uma CPU é de [{TAMANHO_MAXIMO_PROCESSOS_PERMITIDO}]. Encerrando execução.");
         }
 
-        if (numeroProcessos < TAMANHO_MINIMO_PROCESSOS_PERMITIDO)
+        if (numeroParticoes < TAMANHO_MINIMO_PROCESSOS_PERMITIDO)
         {
             throw new ArgumentException($"O tamanho mínimo de partições permitido para uma CPU é de [{TAMANHO_MINIMO_PROCESSOS_PERMITIDO}]. Encerrando execução.");
         }
 
-        PCBs = new ProcessControlBlock[numeroProcessos];
+        GerenteMemoria = new GerenteDeMemoria(numeroParticoes);
+        
+        Fila = filaProntos;
+    }
+
+    public void LoadPrograms()
+    {
+        string filePath;
+        string processID;
+        int particao;
+
+        // de 1 a 5 pq to usando o i pra pegar todos os 4 txts
+        for (int i = 1; i < 5; i++)
+        {
+            filePath = Environment.CurrentDirectory + @"\programs\P" + i + ".txt";
+
+            particao = ParticaoAleatoria();
+
+            GerenteMemoria.ReadFile(filePath, particao);
+
+            processID = "Programa " + i;
+
+            // dps de carregar na memoria, cria PCB do processo na mesma posiçao da partição
+            CreatePCB(processID, particao);            
+        }
+    }
+
+      public int ParticaoAleatoria()
+    {
+        Random r = new Random();
+
+        int particaoAleatoria = r.Next(0, GerenteDeMemoria.NumeroParticoes);
+
+            // enquanto a partição aleatoria estiver ocupada, procurar uma próxima aleatoria
+            while (!GerenteMemoria.ParticaoEstaLivre(particaoAleatoria))
+            {
+                particaoAleatoria = r.Next(0, GerenteDeMemoria.NumeroParticoes);
+            }
+
+        return particaoAleatoria;
     }
 
     public void CreatePCB(string ProcessID, int particao)
     {
-        PCBs[particao] = new ProcessControlBlock(ProcessID);
+        ProcessControlBlock pcb = new ProcessControlBlock(ProcessID);
 
         int offSet;
         int enderecoMax;
 
         offSet = GerenteDeMemoria.CalculaOffset(particao);
-        PCBs[particao].Pc = offSet;
-        PCBs[particao].OffSet = offSet;
+        pcb.Pc = offSet;
+        pcb.OffSet = offSet;
 
         enderecoMax = GerenteDeMemoria.CalculaEnderecoMax(particao);
-        PCBs[particao].EnderecoLimite = enderecoMax;
-    }
+        pcb.EnderecoLimite = enderecoMax;
 
-    public void CreateProcessQueue()
-    {   
-        fila = new Queue <ProcessControlBlock>();
-        ProcessControlBlock pcb;
-
-        Console.WriteLine("Fila de execução dos processos");
-        Console.WriteLine("---------------------------------");
-
-        // poe na fila todos os PCBs e printa suas informações
-        for (int i = 0; i < PCBs.Length; i++)
-        {
-            pcb = PCBs[i];
-
-            if (pcb != null)
-            {
-                fila.Enqueue(pcb);
-                Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
-            }
-        }    
+        Fila.AddProcess(pcb);
     }
 }

@@ -13,14 +13,6 @@ namespace ConsoleApp1
 
             SO.Start();
 
-
-            int exit;
-            do
-            {
-                Console.WriteLine("Digite 0 para sair");
-                exit = Convert.ToInt32(Console.ReadLine());
-            }
-            while(exit != 0);
         }
     }
 }

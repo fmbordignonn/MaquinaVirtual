@@ -2,130 +2,104 @@ using System;
 using System.Collections.Generic;
 public class SistemaOperacional
 {
-    public CPU cpu;
+  public CPU cpu;
 
-    public GerenteDeMemoria GerenteMemoria;
+  public GerenteDeProcesso GerenteProcesso;
 
-    public GerenteDeProcesso GerenteProcesso;
+  public FilaDeProcesso FilaProntos;
+  public SistemaOperacional(int numeroParticoes)
+  {
+    cpu = new CPU();
+    FilaProntos = new FilaDeProcesso();
+    //tem o gerente de memoria dentro
+    GerenteProcesso = new GerenteDeProcesso(numeroParticoes, FilaProntos);
 
-    public SistemaOperacional(int numeroParticoes)
+    int exit;
+    do
     {
-        cpu = new CPU();
+      Console.WriteLine("Digite 0 para sair");
+      exit = Convert.ToInt32(Console.ReadLine());
+    }
+    while (exit != 0);
 
-        GerenteMemoria = new GerenteDeMemoria(numeroParticoes);
+  }
 
-        GerenteProcesso = new GerenteDeProcesso(numeroParticoes);
+  public void Start()
+  {
+    GerenteProcesso.LoadPrograms();
+
+    TimeSliceExecution();
+  }
+
+
+
+//   public void TimeSliceExecution()
+//   {
+//     //Queue <ProcessControlBlock> fila = new Queue <ProcessControlBlock>();
+//     Queue<ProcessControlBlock> fila = GerenteProcesso.Fila;
+//     ProcessControlBlock pcb;
+
+//     Console.WriteLine("\nInicio da execução em time-slice");
+//     Console.WriteLine("---------------------------------");
+
+//     // retira um de cada vez da fila e roda na CPU de acordo com a fatia de tempo
+//     while (fila.Count != 0)
+//     {
+//       pcb = fila.Dequeue();
+//       cpu.NewCPU(pcb);
+
+//       if (pcb.State == State.WAITING)
+//       {
+//         fila.Enqueue(pcb);
+//       }
+
+//       Console.WriteLine($"Process Id: {pcb.ProcessID} ; State: {pcb.State}\n");
+//     }
+
+//     // no final de tudo é printado o valor dos registradores dos PCBs e
+//     // as devidas posições de memórias ocupadas
+//     for (int i = 0; i < GerenteProcesso.PCBs.Length; i++)
+//     {
+//       pcb = GerenteProcesso.PCBs[i];
+
+//       if (pcb != null)
+//       {
+//         PrintRegistradoresEMemoria(pcb);
+//       }
+//     }
+//   }
+
+  // ve se da pra trocar o length por NumeroParticoes (static)
+
+
+  public void PrintRegistradoresEMemoria(ProcessControlBlock pcb)
+  {
+    Console.WriteLine("--------------------------------------------");
+    Console.WriteLine("--------------------------------------------");
+    Console.WriteLine($"DADOS DO PROCESSO: {pcb.ProcessID}\n\n");
+
+    Console.WriteLine("Valores finais dos registradores:\n");
+
+    foreach (var item in pcb.Registradores)
+    {
+      Console.WriteLine("--------------------------------------------\n");
+
+      Console.WriteLine($"Registrador [{item.Key}] - valor final [{item.Value}]\n");
     }
 
-    public void Start()
+    Console.WriteLine("--------------------------------------------\n");
+
+    Console.WriteLine("Status finais das posições de memória (não nulas) da particao\n");
+
+    for (int i = pcb.OffSet; i < pcb.EnderecoLimite; i++)
     {
-        LoadPrograms();
-        GerenteProcesso.CreateProcessQueue();
-        TimeSliceExecution();
+      if (GerenteDeMemoria.Memoria[i] == null)
+      {
+        continue;
+      }
+
+      Console.WriteLine($"Posição de memória [{i}]:");
+      Console.WriteLine(GerenteDeMemoria.Memoria[i].ToString() + "\n");
     }
-
-    public void LoadPrograms()
-    {
-        string filePath;
-        string processID;
-        int particao;
-
-        // de 1 a 5 pq to usando o i pra pegar todos os 4 txts
-        for (int i = 1; i < 5; i++)
-        {
-            filePath = Environment.CurrentDirectory + @"\programs\P" + i + ".txt";
-
-            particao = ParticaoAleatoria();
-
-            GerenteMemoria.ReadFile(filePath, particao);
-
-            processID = "Programa " + i;
-
-            // dps de carregar na memoria, cria PCB do processo na mesma posiçao da partição
-            GerenteProcesso.CreatePCB(processID, particao);            
-        }
-    }
-
-    public void TimeSliceExecution()
-    {
-        //Queue <ProcessControlBlock> fila = new Queue <ProcessControlBlock>();
-        Queue <ProcessControlBlock> fila = GerenteProcesso.fila;
-        ProcessControlBlock pcb;
-
-        Console.WriteLine("\nInicio da execução em time-slice");
-        Console.WriteLine("---------------------------------");
-
-        // retira um de cada vez da fila e roda na CPU de acordo com a fatia de tempo
-        while (fila.Count != 0)
-        {
-            pcb = fila.Dequeue();
-            cpu.NewCPU(pcb);
-
-            if (pcb.State == State.WAITING)
-            {
-                fila.Enqueue(pcb);
-            }
-
-            Console.WriteLine($"Process Id: {pcb.ProcessID} ; State: {pcb.State}\n");
-        }
-
-        // no final de tudo é printado o valor dos registradores dos PCBs e
-        // as devidas posições de memórias ocupadas
-         for (int i = 0; i < GerenteProcesso.PCBs.Length; i++)
-        {
-            pcb = GerenteProcesso.PCBs[i];
-
-            if (pcb != null)
-            {
-                PrintRegistradoresEMemoria(pcb);
-            }
-        }
-    }
-
-    // ve se da pra trocar o length por NumeroParticoes (static)
-    public int ParticaoAleatoria()
-    {
-        Random r = new Random();
-
-        int particaoAleatoria = r.Next(0, GerenteDeMemoria.NumeroParticoes);
-
-            // enquanto a partição aleatoria estiver ocupada, procurar uma próxima aleatoria
-            while (!GerenteMemoria.ParticaoEstaLivre(particaoAleatoria))
-            {
-                particaoAleatoria = r.Next(0, GerenteDeMemoria.NumeroParticoes);
-            }
-
-        return particaoAleatoria;
-    }
-
-    public void PrintRegistradoresEMemoria(ProcessControlBlock pcb)
-    {
-        Console.WriteLine("--------------------------------------------");
-        Console.WriteLine("--------------------------------------------");
-        Console.WriteLine($"DADOS DO PROCESSO: {pcb.ProcessID}\n\n");
-        
-        Console.WriteLine("Valores finais dos registradores:\n");
-
-        foreach (var item in pcb.Registradores)
-        {
-            Console.WriteLine("--------------------------------------------\n");
-
-            Console.WriteLine($"Registrador [{item.Key}] - valor final [{item.Value}]\n");
-        }
-
-        Console.WriteLine("--------------------------------------------\n");
-
-        Console.WriteLine("Status finais das posições de memória (não nulas) da particao\n");
-
-        for (int i = pcb.OffSet; i < pcb.EnderecoLimite; i++)
-        {
-            if (GerenteDeMemoria.Memoria[i] == null)
-            {
-                continue;
-            }
-            
-            Console.WriteLine($"Posição de memória [{i}]:");
-            Console.WriteLine(GerenteDeMemoria.Memoria[i].ToString() + "\n");
-        }
-    }
+  }
 }

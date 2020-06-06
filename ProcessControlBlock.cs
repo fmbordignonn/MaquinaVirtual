@@ -32,8 +32,6 @@ public class ProcessControlBlock
         Registradores.Add("r7", 0);
 
         this.ProcessID = processID;
-
-        State = State.READY;
     }
 }
 
