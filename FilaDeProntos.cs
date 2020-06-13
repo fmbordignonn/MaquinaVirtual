@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-public class FilaDeProcesso
+public class FilaDeProntos
 {
 
   private Queue<ProcessControlBlock> Fila { get; set; }
 
-  public FilaDeProcesso()
+  public FilaDeProntos()
   {
     Fila = new Queue<ProcessControlBlock>();
   }

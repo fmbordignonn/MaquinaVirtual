@@ -6,11 +6,11 @@ public class GerenteDeProcesso
 
     private const int TAMANHO_MAXIMO_PROCESSOS_PERMITIDO = 8;
 
-    public FilaDeProcesso Fila { get; set; }
+    public FilaDeProntos Fila { get; set; }
 
     public GerenteDeMemoria GerenteMemoria { get; set; }
 
-    public GerenteDeProcesso(int numeroParticoes, FilaDeProcesso filaProntos)
+    public GerenteDeProcesso(int numeroParticoes, FilaDeProntos filaProntos)
     {
         if (numeroParticoes > TAMANHO_MAXIMO_PROCESSOS_PERMITIDO)
         {
@@ -27,26 +27,18 @@ public class GerenteDeProcesso
         Fila = filaProntos;
     }
 
-    public void LoadPrograms()
+    public void LoadProgram(int programNumber)
     {
-        string filePath;
-        string processID;
-        int particao;
+        string filePath = Environment.CurrentDirectory + @"\programs\P" + programNumber + ".txt";
 
-        // de 1 a 5 pq to usando o i pra pegar todos os 4 txts
-        for (int i = 1; i < 5; i++)
-        {
-            filePath = Environment.CurrentDirectory + @"\programs\P" + i + ".txt";
+        int particao = ParticaoAleatoria();
 
-            particao = ParticaoAleatoria();
+        GerenteMemoria.ReadFile(filePath, particao);
 
-            GerenteMemoria.ReadFile(filePath, particao);
+        string processID = "Programa " + programNumber;
 
-            processID = "Programa " + i;
-
-            // dps de carregar na memoria, cria PCB do processo na mesma posiçao da partição
-            CreatePCB(processID, particao);            
-        }
+        // dps de carregar na memoria, cria PCB do processo na mesma posiçao da partição
+        CreatePCB(processID, particao);            
     }
 
       public int ParticaoAleatoria()

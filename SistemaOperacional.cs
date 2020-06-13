@@ -6,29 +6,44 @@ public class SistemaOperacional
 
   public GerenteDeProcesso GerenteProcesso;
 
-  public FilaDeProcesso FilaProntos;
+  public FilaDeProntos FilaProntos;
   public SistemaOperacional(int numeroParticoes)
   {
     cpu = new CPU();
-    FilaProntos = new FilaDeProcesso();
+    FilaProntos = new FilaDeProntos();
+
     //tem o gerente de memoria dentro
     GerenteProcesso = new GerenteDeProcesso(numeroParticoes, FilaProntos);
-
-    int exit;
-    do
-    {
-      Console.WriteLine("Digite 0 para sair");
-      exit = Convert.ToInt32(Console.ReadLine());
-    }
-    while (exit != 0);
 
   }
 
   public void Start()
   {
-    GerenteProcesso.LoadPrograms();
+    int program;
 
-    TimeSliceExecution();
+    Console.WriteLine("------- LISTA DE PROGRAMAS -------\n");
+    Console.WriteLine("1- 10 primeiros números da sequência de Fibonacci");
+    Console.WriteLine("2- Quantidade de números da sequência de Fibonacci que deseja calcular");
+    Console.WriteLine("3- Calcular fatorial");
+    Console.WriteLine("4- Bubble sort para ordenar 5 valores\n");
+
+    do
+    {
+      Console.WriteLine("Digite o número do programa que deseja executar:");
+      program = Convert.ToInt32(Console.ReadLine());
+
+      if (program == 1 || program == 2 || program == 3 || program == 4)
+      {
+          GerenteProcesso.LoadProgram(program);
+      }
+      else
+      {
+          Console.WriteLine("Programa não existe.");
+      }
+    }
+    while (program != 0);
+
+    //TimeSliceExecution();
   }
 
 
