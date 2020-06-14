@@ -11,14 +11,12 @@ public static class FilaDeProntos
 
     public static void AddProcess(ProcessControlBlock pcb)
     {
-
-        Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de prontos");
-        Console.WriteLine("---------------------------------");
-
         pcb.State = State.READY;
         Fila.Enqueue(pcb);
 
-        Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+        Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de prontos");
+
+        //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
     }
 
     public static ProcessControlBlock DequeueProcess()
@@ -29,5 +27,15 @@ public static class FilaDeProntos
     public static int ContarProcessos()
     {
         return Fila.Count;
+    }
+
+    public static void PrintFilaDeProntos()
+    {
+        Console.WriteLine("Printando fila de processos prontos:");
+
+        foreach (var pcb in Fila)
+        {
+            Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+        }
     }
 }

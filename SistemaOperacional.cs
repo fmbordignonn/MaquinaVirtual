@@ -23,29 +23,36 @@ public class SistemaOperacional
     public void IniciarExecucao()
     {
         shell.Start();
+
+
         escalonador.Start();
     }
 
     public static void RodarShell()
     {
         int program;
-
-        Console.WriteLine("------- LISTA DE PROGRAMAS -------\n");
-        Console.WriteLine("1- 10 primeiros números da sequência de Fibonacci");
-        Console.WriteLine("2- Quantidade de números da sequência de Fibonacci que deseja calcular");
-        Console.WriteLine("3- Calcular fatorial");
-        Console.WriteLine("4- Bubble sort para ordenar 5 valores\n");
-
-        Console.WriteLine("5 - Acessar fila de IO");
-
         do
         {
+            Console.WriteLine("------- LISTA DE PROGRAMAS -------\n");
+            Console.WriteLine("1- 10 primeiros números da sequência de Fibonacci");
+            Console.WriteLine("2- Quantidade de números da sequência de Fibonacci que deseja calcular");
+            Console.WriteLine("3- Calcular fatorial");
+            Console.WriteLine("4- Bubble sort para ordenar 5 valores\n");
+
+            Console.WriteLine("5 - Acessar fila de IO");
+            Console.WriteLine("6 - fila prontos");
+
+
             Console.WriteLine("Digite o número do programa que deseja executar:");
             program = Convert.ToInt32(Console.ReadLine());
 
             if (program == 1 || program == 2 || program == 3 || program == 4)
             {
                 GerenteProcesso.LoadProgram(program);
+            }
+            else if (program == 6)
+            {
+                FilaDeProntos.PrintFilaDeProntos();
             }
             else
             {
