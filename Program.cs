@@ -10,7 +10,7 @@ namespace ConsoleApp1
             int numeroParticoes = 8;
             SistemaOperacional SO = new SistemaOperacional(numeroParticoes);
 
-            SO.Start();
+            SO.IniciarExecucao();
 
             
         }

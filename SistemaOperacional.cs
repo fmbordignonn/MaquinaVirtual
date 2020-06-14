@@ -8,24 +8,22 @@ public class SistemaOperacional
 
     public static GerenteDeProcesso GerenteProcesso;
 
-    public Escalonador escalonador;
-
-    Semaphore sem = new Semaphore(0, 1);
-
+    //Thread Shell
     Thread shell = new Thread(new ThreadStart(RodarShell));
+
+    //Thread Escalonador
+    Thread escalonador = new Thread(new ThreadStart(Escalonador.Escalona));
 
     public SistemaOperacional(int numeroParticoes)
     {
-        cpu = new CPU();
-
         //tem o gerente de memoria dentro
         GerenteProcesso = new GerenteDeProcesso(numeroParticoes);
-
     }
 
-    public void Start()
+    public void IniciarExecucao()
     {
         shell.Start();
+        escalonador.Start();
     }
 
     public static void RodarShell()

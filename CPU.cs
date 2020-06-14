@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 public class CPU
 {
     private const int FATIA_DE_TEMPO = 10;
 
-    public void NewCPU(ProcessControlBlock pcb)
+    public static void ExecutarCPU(ProcessControlBlock pcb)
     {
         pcb.State = State.RUNNING;
         int ComandsCount = 0;
@@ -14,6 +15,7 @@ public class CPU
         // só pra mostrar que o processo ta RUNNING
         Console.WriteLine($"Process Id: {pcb.ProcessID} ; State: {pcb.State}");
         
+        Console.WriteLine("As thread tao bombando - to na cpu");
         string value = string.Empty;
         bool logicalResult = false;
         int memoryPosition = 0;

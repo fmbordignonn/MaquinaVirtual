@@ -23,6 +23,11 @@ public static class FilaDeProntos
 
     public static ProcessControlBlock DequeueProcess()
     {
-      return Fila.Dequeue();
+        return Fila.Dequeue();
+    }
+
+    public static int ContarProcessos()
+    {
+        return Fila.Count;
     }
 }
