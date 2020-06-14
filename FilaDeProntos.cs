@@ -1,24 +1,23 @@
 using System;
 using System.Collections.Generic;
-public class FilaDeProntos
+public static class FilaDeProntos
 {
+    private static Queue<ProcessControlBlock> Fila { get; set; }
 
-  private Queue<ProcessControlBlock> Fila { get; set; }
+    static FilaDeProntos()
+    {
+        Fila = new Queue<ProcessControlBlock>();
+    }
 
-  public FilaDeProntos()
-  {
-    Fila = new Queue<ProcessControlBlock>();
-  }
+    public static void AddProcess(ProcessControlBlock pcb)
+    {
 
-  public void AddProcess(ProcessControlBlock pcb)
-  {
+        Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de prontos");
+        Console.WriteLine("---------------------------------");
 
-    Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de prontos");
-    Console.WriteLine("---------------------------------");
+        pcb.State = State.READY;
+        Fila.Enqueue(pcb);
 
-    pcb.State = State.READY;
-    Fila.Enqueue(pcb);
-    
-    Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
-  }
+        Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+    }
 }

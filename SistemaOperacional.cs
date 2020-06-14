@@ -8,22 +8,16 @@ public class SistemaOperacional
 
     public static GerenteDeProcesso GerenteProcesso;
 
-    public FilaDeProntos FilaProntos;
-
     Semaphore sem = new Semaphore(0, 1);
 
     Thread shell = new Thread(new ThreadStart(RodarShell));
-
-
 
     public SistemaOperacional(int numeroParticoes)
     {
         cpu = new CPU();
 
-        FilaProntos = new FilaDeProntos();
-
         //tem o gerente de memoria dentro
-        GerenteProcesso = new GerenteDeProcesso(numeroParticoes, FilaProntos);
+        GerenteProcesso = new GerenteDeProcesso(numeroParticoes);
 
     }
 
@@ -41,7 +35,7 @@ public class SistemaOperacional
         Console.WriteLine("2- Quantidade de números da sequência de Fibonacci que deseja calcular");
         Console.WriteLine("3- Calcular fatorial");
         Console.WriteLine("4- Bubble sort para ordenar 5 valores\n");
-        
+
         Console.WriteLine("5 - Acessar fila de IO");
 
         do
