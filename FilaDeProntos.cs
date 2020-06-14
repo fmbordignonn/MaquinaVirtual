@@ -20,4 +20,9 @@ public static class FilaDeProntos
 
         Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
     }
+
+    public static ProcessControlBlock DequeueProcess()
+    {
+      return Fila.Dequeue();
+    }
 }

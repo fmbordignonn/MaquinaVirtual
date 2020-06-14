@@ -8,6 +8,8 @@ public class SistemaOperacional
 
     public static GerenteDeProcesso GerenteProcesso;
 
+    public Escalonador escalonador;
+
     Semaphore sem = new Semaphore(0, 1);
 
     Thread shell = new Thread(new ThreadStart(RodarShell));
