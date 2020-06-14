@@ -5,12 +5,10 @@ public class GerenteDeProcesso
     private const int TAMANHO_MINIMO_PROCESSOS_PERMITIDO = 4;
 
     private const int TAMANHO_MAXIMO_PROCESSOS_PERMITIDO = 8;
-
-    public FilaDeProntos Fila { get; set; }
-
+    
     public GerenteDeMemoria GerenteMemoria { get; set; }
 
-    public GerenteDeProcesso(int numeroParticoes, FilaDeProntos filaProntos)
+    public GerenteDeProcesso(int numeroParticoes)
     {
         if (numeroParticoes > TAMANHO_MAXIMO_PROCESSOS_PERMITIDO)
         {
@@ -23,8 +21,6 @@ public class GerenteDeProcesso
         }
 
         GerenteMemoria = new GerenteDeMemoria(numeroParticoes);
-        
-        Fila = filaProntos;
     }
 
     public void LoadProgram(int programNumber)
@@ -70,6 +66,6 @@ public class GerenteDeProcesso
         enderecoMax = GerenteDeMemoria.CalculaEnderecoMax(particao);
         pcb.EnderecoLimite = enderecoMax;
 
-        Fila.AddProcess(pcb);
+        FilaDeProntos.AddProcess(pcb);
     }
 }
