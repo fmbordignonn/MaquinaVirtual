@@ -17,7 +17,7 @@ public class Escalonador
 
             if (FilaDeProntos.ContarProcessos() != 0)
             {
-                Console.WriteLine("to escalonando");
+                Console.WriteLine("to escalonando\n");
 
                 ProcessControlBlock pcb = FilaDeProntos.DequeueProcess();
 

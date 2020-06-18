@@ -15,7 +15,7 @@ public class CPU
         // só pra mostrar que o processo ta RUNNING
         Console.WriteLine($"Process Id: {pcb.ProcessID} ; State: {pcb.State}");
         
-        Console.WriteLine("As thread tao bombando - to na cpu");
+        Console.WriteLine("To na cpu\n");
         string value = string.Empty;
         bool logicalResult = false;
         int memoryPosition = 0;

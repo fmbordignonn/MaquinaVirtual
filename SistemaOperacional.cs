@@ -9,10 +9,10 @@ public class SistemaOperacional
     public static GerenteDeProcesso GerenteProcesso;
 
     //Thread Shell
-    Thread shell = new Thread(new ThreadStart(RodarShell));
+    static Thread shell = new Thread(new ThreadStart(RodarShell));
 
     //Thread Escalonador
-    Thread escalonador = new Thread(new ThreadStart(Escalonador.Escalona));
+    static Thread escalonador = new Thread(new ThreadStart(Escalonador.Escalona));
 
     public SistemaOperacional(int numeroParticoes)
     {
@@ -28,6 +28,12 @@ public class SistemaOperacional
         escalonador.Start();
     }
 
+    public static void EncerrarExecucao()
+    {
+        shell.Interrupt();
+        escalonador.Interrupt();
+    }
+
     public static void RodarShell()
     {
         int program;
@@ -40,28 +46,53 @@ public class SistemaOperacional
             Console.WriteLine("4- Bubble sort para ordenar 5 valores\n");
 
             Console.WriteLine("5 - Acessar fila de IO");
-            Console.WriteLine("6 - fila prontos\n");
+            Console.WriteLine("6 - Printar fila prontos");
+            Console.WriteLine("0 - Shutdown\n");
 
 
             Console.WriteLine("Digite o número do programa que deseja executar:");
             program = Convert.ToInt32(Console.ReadLine());
 
-            if (program == 1 || program == 2 || program == 3 || program == 4)
+            switch(program)
             {
-                GerenteProcesso.LoadProgram(program);
+                case 1:
+                    GerenteProcesso.LoadProgram(program);
+                    break;
+                
+                case 2:
+                    GerenteProcesso.LoadProgram(program);
+                    break;
+
+                case 3:
+                    GerenteProcesso.LoadProgram(program);
+                    break;
+
+                case 4:
+                    GerenteProcesso.LoadProgram(program);
+                    break;
+
+                case 5:
+                    
+                    break;
+
+                case 6:
+                    FilaDeProntos.PrintFilaDeProntos();
+                    break;
+
+                case 0:
+                    goto Shutdown;
+
+                default:
+                    Console.WriteLine("Programa não existe.");
+                    break;
             }
-            else if (program == 6)
-            {
-                FilaDeProntos.PrintFilaDeProntos();
-            }
-            else
-            {
-                Console.WriteLine("Programa não existe.");
-            }
+
+            Shutdown:
+                continue;
         }
         while (program != 0);
 
-        //TimeSliceExecution();
+        EncerrarExecucao();
     }
 
 

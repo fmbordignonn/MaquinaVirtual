@@ -14,7 +14,7 @@ public static class FilaDeProntos
         pcb.State = State.READY;
         Fila.Enqueue(pcb);
 
-        Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de prontos");
+        Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de prontos\n");
 
         //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
     }
@@ -31,7 +31,7 @@ public static class FilaDeProntos
 
     public static void PrintFilaDeProntos()
     {
-        Console.WriteLine("Printando fila de processos prontos:");
+        Console.WriteLine("Printando fila de processos prontos:\n");
 
         foreach (var pcb in Fila)
         {
