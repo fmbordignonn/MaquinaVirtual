@@ -40,7 +40,7 @@ public class SistemaOperacional
             Console.WriteLine("4- Bubble sort para ordenar 5 valores\n");
 
             Console.WriteLine("5 - Acessar fila de IO");
-            Console.WriteLine("6 - fila prontos");
+            Console.WriteLine("6 - fila prontos\n");
 
 
             Console.WriteLine("Digite o número do programa que deseja executar:");

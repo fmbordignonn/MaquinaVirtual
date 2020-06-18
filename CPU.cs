@@ -249,6 +249,26 @@ public class CPU
                     pcb.Pc++;
                     break;
 
+                case "TRAP":
+                    value = currentLine.Reg1;
+                    memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, pcb.Registradores[value]);
+
+                    if (value != "1" || value != "2")
+                    {
+                        throw new ArgumentException($"O valor [{value}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
+                    }
+                    else if (value == "1")
+                    {
+                        //READ
+                    }
+                    else
+                    {
+                        //WRITE
+                    }
+                        
+                    pcb.Pc++;
+                    break;
+
                 // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
                 default:
                     throw new ArgumentException($"Não foi possível encontrar o comando [{currentLine.OPCode}]");
