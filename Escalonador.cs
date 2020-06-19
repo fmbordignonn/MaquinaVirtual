@@ -7,7 +7,7 @@ public class Escalonador
 
     public static void Escalona()
     {
-        Console.WriteLine("to antes do while true no escalona");
+        //Console.WriteLine("to antes do while true no escalona");
 
         while (true)
         {
@@ -17,7 +17,7 @@ public class Escalonador
 
             if (FilaDeProntos.ContarProcessos() != 0)
             {
-                Console.WriteLine("to escalonando\n");
+                Console.WriteLine("\nto escalonando");
 
                 ProcessControlBlock pcb = FilaDeProntos.DequeueProcess();
 

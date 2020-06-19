@@ -13,9 +13,9 @@ public class CPU
         int ComandsCount = 0;
 
         // só pra mostrar que o processo ta RUNNING
-        Console.WriteLine($"Process Id: {pcb.ProcessID} ; State: {pcb.State}");
+        Console.WriteLine($"\nProcess Id: {pcb.ProcessID} ; State: {pcb.State}");
         
-        Console.WriteLine("To na cpu\n");
+        Console.WriteLine("\nTo na cpu");
         string value = string.Empty;
         bool logicalResult = false;
         int memoryPosition = 0;

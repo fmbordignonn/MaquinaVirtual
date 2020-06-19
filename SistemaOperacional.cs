@@ -23,8 +23,6 @@ public class SistemaOperacional
     public void IniciarExecucao()
     {
         shell.Start();
-
-
         escalonador.Start();
     }
 
@@ -37,13 +35,15 @@ public class SistemaOperacional
     public static void RodarShell()
     {
         int program;
-        do
+        while(true)
         {
-            Console.WriteLine("------- LISTA DE PROGRAMAS -------\n");
+            Console.WriteLine("                LISTA DE PROGRAMAS                ");
+            Console.WriteLine("--------------------------------------------------");
             Console.WriteLine("1- 10 primeiros números da sequência de Fibonacci");
             Console.WriteLine("2- Quantidade de números da sequência de Fibonacci que deseja calcular");
             Console.WriteLine("3- Calcular fatorial");
-            Console.WriteLine("4- Bubble sort para ordenar 5 valores\n");
+            Console.WriteLine("4- Bubble sort para ordenar 5 valores");
+            Console.WriteLine("--------------------------------------------------");
 
             Console.WriteLine("5 - Acessar fila de IO");
             Console.WriteLine("6 - Printar fila prontos");
@@ -56,23 +56,15 @@ public class SistemaOperacional
             switch(program)
             {
                 case 1:
-                    GerenteProcesso.LoadProgram(program);
-                    break;
-                
                 case 2:
-                    GerenteProcesso.LoadProgram(program);
-                    break;
-
                 case 3:
-                    GerenteProcesso.LoadProgram(program);
-                    break;
-
                 case 4:
                     GerenteProcesso.LoadProgram(program);
+                    Thread.Sleep(500);
                     break;
 
                 case 5:
-                    
+                    // Acessa a fila de IO
                     break;
 
                 case 6:
@@ -80,19 +72,14 @@ public class SistemaOperacional
                     break;
 
                 case 0:
-                    goto Shutdown;
+                    EncerrarExecucao();
+                    return;
 
                 default:
                     Console.WriteLine("Programa não existe.");
                     break;
             }
-
-            Shutdown:
-                continue;
         }
-        while (program != 0);
-
-        EncerrarExecucao();
     }
 
 
