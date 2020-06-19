@@ -13,6 +13,8 @@ public class GerenteDeMemoria
 
     public static int NumeroParticoes { get; set; }
 
+    private int ParticoesAlocadas { get; set; }
+
     public static PosicaoDeMemoria[] Memoria { get; set; }
 
     public GerenteDeMemoria(int numeroParticoes)
@@ -33,6 +35,7 @@ public class GerenteDeMemoria
         }
 
         NumeroParticoes = numeroParticoes;
+        ParticoesAlocadas = 0;
 
         Particoes = new ParticaoMemoria[numeroParticoes];
         Memoria = new PosicaoDeMemoria[TAMANHO_MAXIMO_POSICOES_DE_MEMORIA];
@@ -46,6 +49,16 @@ public class GerenteDeMemoria
     public bool ParticaoEstaLivre(int particao)
     {
         return Particoes[particao].Status == Status.DESALOCADO;
+    }
+
+    public bool MemoriaCheia()
+    {
+        if (ParticoesAlocadas == NumeroParticoes)
+        {
+            return true;
+        }
+        
+        return false;
     }
 
     public static int CalculaOffset(int particao)
@@ -137,5 +150,6 @@ public class GerenteDeMemoria
         }
         // indicando que a partição já está alocada
         Particoes[particao].Status = Status.ALOCADO;
+        ParticoesAlocadas++;
     }
 }

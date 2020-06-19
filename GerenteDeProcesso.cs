@@ -39,6 +39,10 @@ public class GerenteDeProcesso
 
       public int ParticaoAleatoria()
     {
+        if(GerenteMemoria.MemoriaCheia())
+        {
+            throw new StackOverflowException("Todas as partições na memória estão alocadas.");
+        }
         Random r = new Random();
 
         int particaoAleatoria = r.Next(0, GerenteDeMemoria.NumeroParticoes);

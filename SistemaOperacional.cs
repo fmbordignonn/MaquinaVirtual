@@ -60,7 +60,7 @@ public class SistemaOperacional
                 case 3:
                 case 4:
                     GerenteProcesso.LoadProgram(program);
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
                     break;
 
                 case 5:
