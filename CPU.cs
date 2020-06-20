@@ -7,8 +7,11 @@ public class CPU
 {
     private const int FATIA_DE_TEMPO = 10;
 
+    //static Semaphore semCPU = new Semaphore(0, 1);
+
     public static void ExecutarCPU(ProcessControlBlock pcb)
     {
+        //semCPU.Release();
         pcb.State = State.RUNNING;
         int ComandsCount = 0;
 
@@ -275,13 +278,22 @@ public class CPU
             }
         }
 
+        Console.WriteLine($"Rodei {ComandsCount} comandos do processo {pcb.ProcessID}");
+        Thread.Sleep(2000);
+
         if (currentLine.OPCode == "STOP")
         {
             pcb.State = State.FINISHED;
+            Console.WriteLine($"Terminou de rodar processo {pcb.ProcessID}");
         }
         else
         {
             pcb.State = State.WAITING;
-        }       
+        } 
+
+        //Liberado o escalonador para puxar outro processo na CPU
+        Escalonador.semaforoEscalonador.Release();
+
+        //semCPU.WaitOne();
     }
 }

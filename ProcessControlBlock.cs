@@ -19,7 +19,6 @@ public class ProcessControlBlock
 
     public ProcessControlBlock(string processID)
     {
-
         Registradores = new Dictionary<string, int>();
 
         Registradores.Add("r0", 0);
@@ -32,6 +31,7 @@ public class ProcessControlBlock
         Registradores.Add("r7", 0);
 
         this.ProcessID = processID;
+        this.State = State.READY;
     }
 }
 

@@ -11,10 +11,9 @@ public static class FilaDeProntos
 
     public static void AddProcess(ProcessControlBlock pcb)
     {
-        pcb.State = State.READY;
         Fila.Enqueue(pcb);
 
-        Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de prontos");
+        Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de prontos com status {pcb.State}");
 
         //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
     }

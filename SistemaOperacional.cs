@@ -52,6 +52,7 @@ public class SistemaOperacional
 
             Console.WriteLine("Digite o número do programa que deseja executar:");
             program = Convert.ToInt32(Console.ReadLine());
+            //program = 1;
 
             switch(program)
             {

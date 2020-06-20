@@ -3,7 +3,7 @@ using System.Threading;
 
 public class Escalonador
 {
-    static Semaphore semaforo = new Semaphore(0, 1);
+    public static Semaphore semaforoEscalonador = new Semaphore(0, 1);
 
     public static void Escalona()
     {
@@ -11,7 +11,6 @@ public class Escalonador
 
         while (true)
         {
-            semaforo.Release();
 
             //Console.WriteLine("Entrei no escalona cusao");
 
@@ -23,21 +22,27 @@ public class Escalonador
 
                 Thread cpuProcess = new Thread(() => CPU.ExecutarCPU(pcb));
 
+                //Iniciando execução do processo na CPU
                 cpuProcess.Start();
+
+                //Bloqueando execução do escalonador até que o processo que está
+                //executando atualmente na CPU tenha estourado o timer/time slice
+                semaforoEscalonador.WaitOne();
 
                 if (pcb.State == State.WAITING)
                 {
                     FilaDeProntos.AddProcess(pcb);
                 }
                 //quando o processo estiver FINISHED
-                else
+                else if (pcb.State == State.FINISHED)
                 {
                     //PrintRegistradoresEMemoria(pcb);
                 }
 
             }
+            
             //Console.WriteLine("nao escalonei nada");
-            semaforo.WaitOne();
+            
         }
     }
 
