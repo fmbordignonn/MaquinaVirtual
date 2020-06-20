@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-
 public class Escalonador
 {
     public static Semaphore semaforoEscalonador = new Semaphore(0, 1);
@@ -11,9 +10,6 @@ public class Escalonador
 
         while (true)
         {
-
-            //Console.WriteLine("Entrei no escalona cusao");
-
             if (FilaDeProntos.ContarProcessos() != 0)
             {
                 Console.WriteLine("\nto escalonando");
@@ -22,25 +18,27 @@ public class Escalonador
 
                 Thread cpuProcess = new Thread(() => CPU.ExecutarCPU(pcb));
 
+                //Apenas pra debuggar e ver os processo rodando
+                Thread.Sleep(2000);
+
                 //Iniciando execução do processo na CPU
                 cpuProcess.Start();
 
-                //Bloqueando execução do escalonador até que o processo que está
-                //executando atualmente na CPU tenha estourado o timer/time slice
+                //Bloqueia a execução do escalonador até que o processo que está
+                //executando atualmente na CPU tenha estourado o timer, ou ocorrido
+                //outro tipo de interrupção
                 semaforoEscalonador.WaitOne();
+                //Segue o flow de semaforos lá na CPU
 
-                if (pcb.State == State.WAITING)
-                {
-                    FilaDeProntos.AddProcess(pcb);
-                }
-                //quando o processo estiver FINISHED
-                else if (pcb.State == State.FINISHED)
-                {
-                    //PrintRegistradoresEMemoria(pcb);
-                }
+                
+                //Soltando a CPU que havia sido bloqueada após a interrupção, para que
+                //ela esteja disponível para rodar um novo processo 'cpuProcess.Start()'
+                //assim que ele for escalonado
+                CPU.semCPU.Release();
+                Console.WriteLine("liberei a cpu");
 
             }
-            
+
             //Console.WriteLine("nao escalonei nada");
             
         }
