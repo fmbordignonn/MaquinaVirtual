@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 
 public class GerenteDeMemoria
 {
@@ -9,7 +10,7 @@ public class GerenteDeMemoria
 
     private const int TAMANHO_MAXIMO_PARTICOES_PERMITIDO = 8;
 
-    public ParticaoMemoria[] Particoes { get; set; }
+    public static ParticaoMemoria[] Particoes { get; set; }
 
     public static int NumeroParticoes { get; set; }
 
@@ -53,12 +54,7 @@ public class GerenteDeMemoria
 
     public bool MemoriaCheia()
     {
-        if (ParticoesAlocadas == NumeroParticoes)
-        {
-            return true;
-        }
-        
-        return false;
+        return Particoes.All(x => x.Status == Status.ALOCADO);
     }
 
     public static int CalculaOffset(int particao)
@@ -87,12 +83,12 @@ public class GerenteDeMemoria
 
         if (enderecoCorrigido > maximumBound)
         {
-            throw new IndexOutOfRangeException($"SEGMENTATION FAULT, o endereço fornecido {enderecoCorrigido} está fora do limite da partição que é {maximumBound}");
+            throw new AcessoIndevidoException($"SEGMENTATION FAULT, o endereço fornecido {enderecoCorrigido} está fora do limite da partição que é {maximumBound}");
         }
 
         return enderecoCorrigido;
     }
-    
+
     public void ReadFile(string filePath, int particao)
     {
         string[] fileContent = File.ReadAllLines(filePath);
@@ -151,5 +147,15 @@ public class GerenteDeMemoria
         // indicando que a partição já está alocada
         Particoes[particao].Status = Status.ALOCADO;
         ParticoesAlocadas++;
+    }
+
+    public static void DesalocarParticao(int particao, int offset, int enderecoLimite)
+    {
+        Particoes[particao].Status = Status.DESALOCADO;
+        
+        for (int i = offset; i <= enderecoLimite; i++)
+        {
+            Memoria[offset] = new PosicaoDeMemoria();
+        }
     }
 }

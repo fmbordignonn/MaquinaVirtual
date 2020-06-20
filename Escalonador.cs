@@ -12,7 +12,7 @@ public class Escalonador
         {
             if (FilaDeProntos.ContarProcessos() != 0)
             {
-                Console.WriteLine("\nto escalonando");
+                //Console.WriteLine("\nto escalonando");
 
                 ProcessControlBlock pcb = FilaDeProntos.DequeueProcess();
 
@@ -35,7 +35,7 @@ public class Escalonador
                 //ela esteja disponível para rodar um novo processo 'cpuProcess.Start()'
                 //assim que ele for escalonado
                 CPU.semCPU.Release();
-                Console.WriteLine("liberei a cpu");
+                //Console.WriteLine("liberei a cpu");
 
             }
 

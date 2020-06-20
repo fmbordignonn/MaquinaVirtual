@@ -8,6 +8,8 @@ public class GerenteDeProcesso
     
     public GerenteDeMemoria GerenteMemoria { get; set; }
 
+    private int count = 0; 
+
     public GerenteDeProcesso(int numeroParticoes)
     {
         if (numeroParticoes > TAMANHO_MAXIMO_PROCESSOS_PERMITIDO)
@@ -31,7 +33,8 @@ public class GerenteDeProcesso
 
         GerenteMemoria.ReadFile(filePath, particao);
 
-        string processID = "Programa " + programNumber;
+        count++;
+        string processID = "P" + count;
 
         // dps de carregar na memoria, cria PCB do processo na mesma posiçao da partição
         CreatePCB(processID, particao);            
@@ -41,6 +44,9 @@ public class GerenteDeProcesso
     {
         if(GerenteMemoria.MemoriaCheia())
         {
+            //shell.Interrupt();
+            //escalonador.Interrupt();
+
             throw new StackOverflowException("Todas as partições na memória estão alocadas.");
         }
         Random r = new Random();
@@ -56,9 +62,9 @@ public class GerenteDeProcesso
         return particaoAleatoria;
     }
 
-    public void CreatePCB(string ProcessID, int particao)
+    public void CreatePCB(string processID, int particao)
     {
-        ProcessControlBlock pcb = new ProcessControlBlock(ProcessID);
+        ProcessControlBlock pcb = new ProcessControlBlock(processID, particao);
 
         int offSet;
         int enderecoMax;

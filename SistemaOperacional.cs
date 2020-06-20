@@ -43,10 +43,11 @@ public class SistemaOperacional
             Console.WriteLine("2- Quantidade de números da sequência de Fibonacci que deseja calcular");
             Console.WriteLine("3- Calcular fatorial");
             Console.WriteLine("4- Bubble sort para ordenar 5 valores");
+            Console.WriteLine("5- Programa para testar acesso indevido");
             Console.WriteLine("--------------------------------------------------");
 
-            Console.WriteLine("5 - Acessar fila de IO");
-            Console.WriteLine("6 - Printar fila prontos");
+            Console.WriteLine("7 - Acessar fila de IO");
+            Console.WriteLine("8 - Printar fila prontos");
             Console.WriteLine("0 - Shutdown\n");
 
 
@@ -60,15 +61,16 @@ public class SistemaOperacional
                 case 2:
                 case 3:
                 case 4:
+                case 5:
                     GerenteProcesso.LoadProgram(program);
                     Thread.Sleep(100);
                     break;
 
-                case 5:
+                case 6:
                     // Acessa a fila de IO
                     break;
 
-                case 6:
+                case 7:
                     FilaDeProntos.PrintFilaDeProntos();
                     break;
 
