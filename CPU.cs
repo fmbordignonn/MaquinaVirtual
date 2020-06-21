@@ -46,12 +46,13 @@ public class CPU
                 break;
             }
 
+            //IO
             if (currentLine.OPCode == "TRAP")
             {
                 Console.WriteLine("Entrando na rotina de tratamento de IO");
 
                 string operation = currentLine.Reg1;
-                memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb,Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
+                memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
 
                 //TRAP 1 [50]
                 //TRAP 2 [50]
@@ -59,7 +60,7 @@ public class CPU
                 {
                     throw new ArgumentException($"O valor [{operation}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
                 }
-                
+
                 //Read
                 if (operation == "1")
                 {
@@ -303,15 +304,20 @@ public class CPU
 
                             pcb.Pc++;
                             break;
-                            
-lt:
+
+                        default:
                             throw new ArgumentException($"Não foi possível encontrar o comando [{currentLine.OPCode}]");
+
                     }
                 }
                 catch (AcessoIndevidoException)
                 {
                     RotinaTratamentoFinalizacao.TratamentoAcessoIndevido(pcb);
                     break;
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception($"Ocorreu um erro ao executar o comando na VM: [{ex.Message}]");
                 }
             }
         }

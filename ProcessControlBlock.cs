@@ -43,5 +43,6 @@ public enum State
     READY,
     RUNNING,
     WAITING,
-    FINISHED
+    FINISHED,
+    BLOCKED_BY_IO_OPERATION
 }
