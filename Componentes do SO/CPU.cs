@@ -23,67 +23,75 @@ public class CPU
 
         PosicaoDeMemoria currentLine = GerenteDeMemoria.Memoria[pcb.Pc];
 
-        while (true)
+        try
         {
-            //Verificando interrupção por fatia de tempo
-            if (TimerCPU.VerificaFatiaDeTempo(CommandsCount))
+            while (true)
             {
-                //Console.WriteLine($"atingi a fatia de tempo {CommandsCount}");
-
-                pcb.State = State.WAITING;
-                //Console.WriteLine($"Status da pcb {pcb.State}");
-
-                //Trata interrupção ocorrida por TIMER
-                RotinaTratamentoTimer.TratarInterrupcaoTimer(pcb);
-                //Break para sair do while(true) e travar a CPU lá embaixo
-                break;
-            }
-
-            if (currentLine.OPCode == "STOP")
-            {
-                Console.WriteLine("entrando na rotina de finalização");
-                RotinaTratamentoFinalizacao.FinalizarProcesso(pcb);
-                break;
-            }
-
-            //IO
-            if (currentLine.OPCode == "TRAP")
-            {
-                Console.WriteLine("Entrando na rotina de tratamento de IO");
-
-                string operation = currentLine.Reg1;
-                memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
-
-                //TRAP 1 [50]
-                //TRAP 2 [50]
-                if (operation != "1" || operation != "2")
+                //Verificando interrupção por fatia de tempo
+                if (TimerCPU.VerificaFatiaDeTempo(CommandsCount))
                 {
-                    throw new ArgumentException($"O valor [{operation}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
-                }
+                    //Console.WriteLine($"atingi a fatia de tempo {CommandsCount}");
 
-                //Read
-                if (operation == "1")
-                {
-                    //READ
-                    //vai ler input do usuario
-                }
-                //Write
-                else
-                {
-                    RotinaTratamentoIO.TratamentoOutput(pcb, operation, memoryPosition);
+                    pcb.State = State.WAITING;
+                    //Console.WriteLine($"Status da pcb {pcb.State}");
+
+                    //Trata interrupção ocorrida por TIMER
+                    RotinaTratamentoTimer.TratarInterrupcaoTimer(pcb);
+                    //Break para sair do while(true) e travar a CPU lá embaixo
                     break;
                 }
-            }
 
-            else
-            {
-                //Console.WriteLine($"entrei no swtich com {CommandsCount} comandos");
-
-                currentLine = GerenteDeMemoria.Memoria[pcb.Pc];
-                CommandsCount++;
-
-                try
+                if (currentLine.OPCode == "STOP")
                 {
+                    Console.WriteLine("entrando na rotina de finalização");
+                    RotinaTratamentoFinalizacao.FinalizarProcesso(pcb);
+                    break;
+                }
+
+                //IO
+                if (currentLine.OPCode == "TRAP")
+                {
+                    Console.WriteLine("Entrando na rotina de tratamento de IO");
+
+                    string operation = currentLine.Reg1;
+
+                    try
+                    {
+                        memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
+                    }
+                    catch (AcessoIndevidoException)
+                    {
+
+                    }
+
+                    //TRAP 1 [50]
+                    //TRAP 2 [50]
+                    if (operation != "1" || operation != "2")
+                    {
+                        throw new ArgumentException($"O valor [{operation}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
+                    }
+
+                    //Read
+                    if (operation == "1")
+                    {
+                        RotinaTratamentoIO.TratarPedidoIO(pcb, IOType.READ, memoryPosition);
+                        break;
+                    }
+                    //Write
+                    else
+                    {
+                        RotinaTratamentoIO.TratarPedidoIO(pcb, IOType.WRITE, memoryPosition);
+                        break;
+                    }
+                }
+
+                else
+                {
+                    //Console.WriteLine($"entrei no swtich com {CommandsCount} comandos");
+
+                    currentLine = GerenteDeMemoria.Memoria[pcb.Pc];
+                    CommandsCount++;
+
                     switch (currentLine.OPCode)
                     {
                         // faz PC pular direto pra uma linha k
@@ -310,18 +318,19 @@ public class CPU
 
                     }
                 }
-                catch (AcessoIndevidoException)
-                {
-                    RotinaTratamentoFinalizacao.TratamentoAcessoIndevido(pcb);
-                    break;
-                }
-                catch(Exception ex)
-                {
-                    throw new Exception($"Ocorreu um erro ao executar o comando na VM: [{ex.Message}]");
-                }
             }
         }
+        catch (AcessoIndevidoException)
+        {
+            RotinaTratamentoFinalizacao.TratamentoAcessoIndevido(pcb);
+        }
+        catch (Exception ex)
+        {
+            //Caso de algum erro generico, finalizar o processo e liberar memoria ao inves de lançar erro
+            throw new Exception($"Ocorreu um erro ao executar o comando na VM: [{ex.Message}]");
+        }
 
+        Console.WriteLine("indo interromper a CPU");
         Console.WriteLine("indo interromper a CPU");
         //Bloqueando a execução da CPU até que o escalonador libere a CPU 
         //para estar pronta a executar um novo processo

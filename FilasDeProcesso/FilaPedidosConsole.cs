@@ -3,23 +3,21 @@ using System.Collections.Generic;
 
 public static class FilaPedidosConsole
 {
-    private static Queue<ProcessControlBlock> FilaPedidos{ get; set; }
+    private static Queue<PedidoConsoleIO> FilaPedidos{ get; set; }
 
     static FilaPedidosConsole()
     {
-        FilaPedidos = new Queue<ProcessControlBlock>();
+        FilaPedidos = new Queue<PedidoConsoleIO>();
     }
 
-    public static void AddProcess(ProcessControlBlock pcb)
+    public static void AddPedidoIO(PedidoConsoleIO pedido)
     {
-        FilaPedidos.Enqueue(pcb);
+        FilaPedidos.Enqueue(pedido);
 
-        Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de pedidos do console com status {pcb.State}");
-
-        //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+        Console.WriteLine($"\nAdicionou o processo {pedido.ProcessID} a fila de pedidos do console");
     }
 
-    public static ProcessControlBlock DequeueProcess()
+    public static PedidoConsoleIO DequeueProcess()
     {
         return FilaPedidos.Dequeue();
     }
@@ -33,9 +31,9 @@ public static class FilaPedidosConsole
     {
         Console.WriteLine("Printando fila de pedidos do console:\n");
 
-        foreach (var pcb in FilaPedidos)
+        foreach (var pedido in FilaPedidos)
         {
-            Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+            Console.WriteLine($"Process Id: {pedido.ProcessID} | Operation: {pedido.IOOperation.ToString()} | Endereço solicitado: {pedido.Endereco}");
         }
     }
 }
