@@ -1,38 +1,39 @@
 using System;
+using System.Collections.Generic;
 
 public static class FilaPedidosConsole
 {
-    private static Queue<ProcessControlBlock> FilaProntos { get; set; }
+    private static Queue<ProcessControlBlock> FilaPedidos{ get; set; }
 
-    static FilaDeProntos()
+    static FilaPedidosConsole()
     {
-        FilaProntos = new Queue<ProcessControlBlock>();
+        FilaPedidos = new Queue<ProcessControlBlock>();
     }
 
     public static void AddProcess(ProcessControlBlock pcb)
     {
-        FilaProntos.Enqueue(pcb);
+        FilaPedidos.Enqueue(pcb);
 
-        Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de prontos com status {pcb.State}");
+        Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de pedidos do console com status {pcb.State}");
 
         //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
     }
 
     public static ProcessControlBlock DequeueProcess()
     {
-        return FilaProntos.Dequeue();
+        return FilaPedidos.Dequeue();
     }
 
     public static int ContarProcessos()
     {
-        return FilaProntos.Count;
+        return FilaPedidos.Count;
     }
 
-    public static void PrintFilaDeProntos()
+    public static void PrintFilaPedidosConsole()
     {
-        Console.WriteLine("Printando fila de processos prontos:\n");
+        Console.WriteLine("Printando fila de pedidos do console:\n");
 
-        foreach (var pcb in FilaProntos)
+        foreach (var pcb in FilaPedidos)
         {
             Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
         }
