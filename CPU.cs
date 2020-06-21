@@ -46,6 +46,34 @@ public class CPU
                 break;
             }
 
+            if (currentLine.OPCode == "TRAP")
+            {
+                Console.WriteLine("Entrando na rotina de tratamento de IO");
+
+                string operation = currentLine.Reg1;
+                memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb,Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
+
+                //TRAP 1 [50]
+                //TRAP 2 [50]
+                if (operation != "1" || operation != "2")
+                {
+                    throw new ArgumentException($"O valor [{operation}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
+                }
+                
+                //Read
+                if (operation == "1")
+                {
+                    //READ
+                    //vai ler input do usuario
+                }
+                //Write
+                else
+                {
+                    RotinaTratamentoIO.TratamentoOutput(pcb, operation, memoryPosition);
+                    break;
+                }
+            }
+
             else
             {
                 //Console.WriteLine($"entrei no swtich com {CommandsCount} comandos");
@@ -275,30 +303,8 @@ public class CPU
 
                             pcb.Pc++;
                             break;
-
-                        case "TRAP":
-                            value = currentLine.Reg1;
-                            memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, pcb.Registradores[value]);
-
-                            if (value != "1" || value != "2")
-                            {
-                                throw new ArgumentException($"O valor [{value}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
-                            }
-                            else if (value == "1")
-                            {
-                                //READ
-                            }
-                            else
-                            {
-                                //WRITE
-                            }
-
-                            pcb.Pc++;
-                            break;
-
-
-                        // todos outros q tem tbm n precisa, sao bitwise operators, ainda n chegamo lá
-                        default:
+                            
+lt:
                             throw new ArgumentException($"Não foi possível encontrar o comando [{currentLine.OPCode}]");
                     }
                 }
