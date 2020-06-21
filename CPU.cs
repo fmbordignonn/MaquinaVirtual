@@ -41,6 +41,7 @@ public class CPU
 
             if (currentLine.OPCode == "STOP")
             {
+                Console.WriteLine("entrando na rotina de finalização");
                 RotinaTratamentoFinalizacao.FinalizarProcesso(pcb);
                 break;
             }
@@ -56,11 +57,6 @@ public class CPU
                 {
                     switch (currentLine.OPCode)
                     {
-                        case "STOP":
-                            Console.WriteLine("Cheguei no Stop");
-
-                            break;
-
                         // faz PC pular direto pra uma linha k
                         // JMP 12
                         case "JMP":
@@ -309,6 +305,7 @@ public class CPU
                 catch (AcessoIndevidoException)
                 {
                     RotinaTratamentoFinalizacao.TratamentoAcessoIndevido(pcb);
+                    break;
                 }
             }
         }

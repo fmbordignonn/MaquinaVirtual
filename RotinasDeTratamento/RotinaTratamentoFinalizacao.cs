@@ -7,7 +7,7 @@ public class RotinaTratamentoFinalizacao
         Console.WriteLine($"Encaminhando para rotina de tratamento finalização");
         Console.WriteLine($"O processo '[{pcb.ProcessID}]' está sendo encerrado");
 
-        // DESALOCAR MEMORIA
+        GerenteDeMemoria.DesalocarParticao(pcb.ParticaoAtual, pcb.OffSet, pcb.EnderecoLimite);
 
         Escalonador.semaforoEscalonador.Release();
         //Segue o flow de volta no escalonador
