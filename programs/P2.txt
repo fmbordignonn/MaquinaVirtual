@@ -1,4 +1,5 @@
-LDI r1,10
+TRAP [1],[49]
+LDX r1,[49]
 SUBI r1,1
 LDI r2,20
 JMPIL r2,r1

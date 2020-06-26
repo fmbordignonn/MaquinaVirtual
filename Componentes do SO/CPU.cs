@@ -53,13 +53,16 @@ public class CPU
                 {
                     Console.WriteLine("Entrando na rotina de tratamento de IO");
 
-                    string operation = currentLine.Reg1;
+                    string operation = currentLine.Reg1.Trim(new char[] { '[', ']' });
+
+                    Console.WriteLine(currentLine.ToString());
+                    Console.WriteLine($"valor em operation: {operation}");
 
                     memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
 
                     //TRAP 1 [50]
                     //TRAP 2 [50]
-                    if (operation != "1" || operation != "2")
+                    if (!new string[] {"1", "2"}.Contains(operation))
                     {
                         throw new ArgumentException($"O valor [{operation}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
                     }
