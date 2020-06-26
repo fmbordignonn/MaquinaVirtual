@@ -55,14 +55,7 @@ public class CPU
 
                     string operation = currentLine.Reg1;
 
-                    try
-                    {
-                        memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
-                    }
-                    catch (AcessoIndevidoException)
-                    {
-
-                    }
+                    memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
 
                     //TRAP 1 [50]
                     //TRAP 2 [50]
@@ -324,13 +317,16 @@ public class CPU
         {
             RotinaTratamentoFinalizacao.TratamentoAcessoIndevido(pcb);
         }
+        catch (DivideByZeroException)
+        {
+            RotinaTratamentoFinalizacao.TratamentoDivisaoPorZero(pcb);
+        }
         catch (Exception ex)
         {
             //Caso de algum erro generico, finalizar o processo e liberar memoria ao inves de lançar erro
             throw new Exception($"Ocorreu um erro ao executar o comando na VM: [{ex.Message}]");
         }
 
-        Console.WriteLine("indo interromper a CPU");
         Console.WriteLine("indo interromper a CPU");
         //Bloqueando a execução da CPU até que o escalonador libere a CPU 
         //para estar pronta a executar um novo processo

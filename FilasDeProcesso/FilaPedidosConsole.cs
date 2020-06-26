@@ -17,7 +17,7 @@ public static class FilaPedidosConsole
         Console.WriteLine($"\nAdicionou o processo {pedido.ProcessID} a fila de pedidos do console");
     }
 
-    public static PedidoConsoleIO DequeueProcess()
+    public static PedidoConsoleIO DequeuePedido()
     {
         return FilaPedidos.Dequeue();
     }

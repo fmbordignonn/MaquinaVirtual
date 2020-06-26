@@ -15,6 +15,19 @@ public class RotinaTratamentoFinalizacao
         Console.WriteLine("liberei o escalonador");
     }
 
+    public static void TratamentoDivisaoPorZero(ProcessControlBlock pcb)
+    {
+        Console.WriteLine($"Encaminhando para rotina de tratamento finalização de divisão por zero");
+        Console.WriteLine($"O processo '[{pcb.ProcessID}]' está sendo encerrado");
+
+        GerenteDeMemoria.DesalocarParticao(pcb.ParticaoAtual, pcb.OffSet, pcb.EnderecoLimite);
+
+        Escalonador.semaforoEscalonador.Release();
+        //Segue o flow de volta no escalonador
+
+        Console.WriteLine("liberei o escalonador");
+    }
+
     public static void FinalizarProcesso(ProcessControlBlock pcb)
     {
         pcb.State = State.FINISHED;

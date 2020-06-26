@@ -7,10 +7,15 @@ public class SistemaOperacional
     public static GerenteDeProcesso GerenteProcesso;
 
     //Thread Shell
-    static Thread shell = new Thread(new ThreadStart(RodarShell));
+    public static Thread shell = new Thread(new ThreadStart(RodarShell));
 
     //Thread Escalonador
-    static Thread escalonador = new Thread(new ThreadStart(Escalonador.Escalona));
+    public static Thread escalonador = new Thread(new ThreadStart(Escalonador.Escalona));
+
+    public static Thread consoleIO;
+
+    //Semáforo Shell
+    public static Semaphore semaforoShell = new Semaphore(0, 1);
 
     public SistemaOperacional(int numeroParticoes)
     {
@@ -22,18 +27,22 @@ public class SistemaOperacional
     {
         shell.Start();
         escalonador.Start();
+        //ConsoleIO.semaforoConsoleIO.WaitOne();
+
+        //consoleIO.Start();
     }
 
     public static void EncerrarExecucao()
     {
         shell.Interrupt();
         escalonador.Interrupt();
+        //consoleIO.Interrupt();
     }
 
     public static void RodarShell()
     {
         int program;
-        while(true)
+        while (true)
         {
             Console.WriteLine("                LISTA DE PROGRAMAS                ");
             Console.WriteLine("--------------------------------------------------");
@@ -44,16 +53,26 @@ public class SistemaOperacional
             Console.WriteLine("5- Programa para testar acesso indevido");
             Console.WriteLine("--------------------------------------------------");
 
-            Console.WriteLine("7 - Acessar fila de IO");
-            Console.WriteLine("8 - Printar fila prontos");
+            Console.WriteLine("6 - Acessar fila de IO");
+            Console.WriteLine("7 - Printar fila prontos");
             Console.WriteLine("0 - Shutdown\n");
 
 
             Console.WriteLine("Digite o número do programa que deseja executar:");
-            program = Convert.ToInt32(Console.ReadLine());
+
+            try
+            {
+                program = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                Console.WriteLine("Digite uma opção válida");
+                continue;
+            }
+
             //program = 1;
 
-            switch(program)
+            switch (program)
             {
                 case 1:
                 case 2:
@@ -65,7 +84,12 @@ public class SistemaOperacional
                     break;
 
                 case 6:
-                    // Acessa a fila de IO
+                    consoleIO = new Thread(new ThreadStart(ConsoleIO.ExecutarConsoleIO));
+                    consoleIO.Start();
+
+                    semaforoShell.WaitOne();
+
+                    SistemaOperacional.consoleIO.Interrupt();
                     break;
 
                 case 7:
