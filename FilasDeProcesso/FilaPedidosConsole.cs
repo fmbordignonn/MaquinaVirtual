@@ -30,7 +30,7 @@ public static class FilaPedidosConsole
     public static void PrintFilaPedidosConsole()
     {
         Console.WriteLine("Printando fila de pedidos do console:\n");
-
+        
         foreach (var pedido in FilaPedidos)
         {
             Console.WriteLine($"Process Id: {pedido.ProcessID} | Operation: {pedido.IOOperation.ToString()} | Endereço solicitado: {pedido.Endereco}");

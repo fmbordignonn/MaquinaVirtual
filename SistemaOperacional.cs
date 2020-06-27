@@ -27,16 +27,6 @@ public class SistemaOperacional
     {
         shell.Start();
         escalonador.Start();
-        //ConsoleIO.semaforoConsoleIO.WaitOne();
-
-        //consoleIO.Start();
-    }
-
-    public static void EncerrarExecucao()
-    {
-        shell.Interrupt();
-        escalonador.Interrupt();
-        //consoleIO.Interrupt();
     }
 
     public static void RodarShell()
@@ -55,6 +45,8 @@ public class SistemaOperacional
 
             Console.WriteLine("6 - Acessar fila de IO");
             Console.WriteLine("7 - Printar fila prontos");
+            Console.WriteLine("8 - Printar fila bloqueados por IO");
+            Console.WriteLine("9 - Printar fila de processos finalizados");
             Console.WriteLine("0 - Shutdown\n");
 
 
@@ -96,8 +88,16 @@ public class SistemaOperacional
                     FilaDeProntos.PrintFilaDeProntos();
                     break;
 
+                case 8:
+                    FilaBloqueadosIO.PrintFilaDeBloqueados();
+                    break;
+
+                case 9:
+                    FilaDeFinalizados.PrintFilaDeFinalizados();
+                    break;
+
                 case 0:
-                    EncerrarExecucao();
+                    System.Environment.Exit(0);
                     return;
 
                 default:

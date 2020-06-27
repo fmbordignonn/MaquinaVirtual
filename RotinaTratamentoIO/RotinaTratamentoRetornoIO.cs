@@ -6,7 +6,7 @@ public class RotinaTratamentoRetornoIO
     {
         ProcessControlBlock pcb = FilaBloqueadosIO.DequeueProcess(pcbID);
 
-        pcb.State = State.READY;
+        pcb.State = State.WAITING;
 
         Console.WriteLine($"Desbloqueou o processo [{pcb.ProcessID}]");
 

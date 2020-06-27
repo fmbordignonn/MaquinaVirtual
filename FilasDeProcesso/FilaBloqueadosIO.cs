@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 public class FilaBloqueadosIO
@@ -15,13 +16,10 @@ public class FilaBloqueadosIO
         FilaBloqueados.Enqueue(pcb);
 
         Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de bloqueados por IO");
-
-        //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
     }
 
     public static ProcessControlBlock DequeueProcess(string pcbID)
     {
-
         foreach (var item in FilaBloqueados)
         {
             if (item.ProcessID == pcbID)
@@ -29,7 +27,7 @@ public class FilaBloqueadosIO
                 return FilaBloqueados.Dequeue();
             }
         }
-        return null;
+        throw new ArgumentException($"O process id numero [{pcbID}] não existe na fila de processos bloqueados");
     }
 
     public static int ContarProcessos()
@@ -39,11 +37,18 @@ public class FilaBloqueadosIO
 
     public static void PrintFilaDeBloqueados()
     {
-        Console.WriteLine("Printando fila de processos bloqueados:\n");
-
-        foreach (var pcb in FilaBloqueados)
+        if (FilaBloqueados.Count == 0)
         {
-            Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+            Console.WriteLine("Não há processos bloqueados por IO no momento");
+        }
+        else
+        {
+            Console.WriteLine("Printando fila de processos bloqueados:\n");
+
+            foreach (var pcb in FilaBloqueados)
+            {
+                Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+            }
         }
     }
 }

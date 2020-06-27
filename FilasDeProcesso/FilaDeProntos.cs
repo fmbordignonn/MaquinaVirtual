@@ -30,11 +30,18 @@ public static class FilaDeProntos
 
     public static void PrintFilaDeProntos()
     {
-        Console.WriteLine("Printando fila de processos prontos:\n");
-
-        foreach (var pcb in FilaProntos)
+        if (FilaProntos.Count == 0)
         {
-            Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+            Console.WriteLine("Não há processos prontos no momento");
+        }
+        else
+        {
+            Console.WriteLine("Printando fila de processos prontos:\n");
+
+            foreach (var pcb in FilaProntos)
+            {
+                Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+            }
         }
     }
 }

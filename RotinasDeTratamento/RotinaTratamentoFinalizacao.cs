@@ -7,6 +7,10 @@ public class RotinaTratamentoFinalizacao
         Console.WriteLine($"Encaminhando para rotina de tratamento finalização por acesso indevido");
         Console.WriteLine($"O processo '[{pcb.ProcessID}]' está sendo encerrado");
 
+        pcb.State = State.ABORTED_DUE_TO_EXCEPTION;
+
+        FilaDeFinalizados.AddProcess(pcb);
+
         GerenteDeMemoria.DesalocarParticao(pcb.ParticaoAtual, pcb.OffSet, pcb.EnderecoLimite);
 
         Escalonador.semaforoEscalonador.Release();
@@ -19,6 +23,10 @@ public class RotinaTratamentoFinalizacao
     {
         Console.WriteLine($"Encaminhando para rotina de tratamento finalização de divisão por zero");
         Console.WriteLine($"O processo '[{pcb.ProcessID}]' está sendo encerrado");
+
+        pcb.State = State.ABORTED_DUE_TO_EXCEPTION;
+
+        FilaDeFinalizados.AddProcess(pcb);
 
         GerenteDeMemoria.DesalocarParticao(pcb.ParticaoAtual, pcb.OffSet, pcb.EnderecoLimite);
 
@@ -34,6 +42,8 @@ public class RotinaTratamentoFinalizacao
         Console.WriteLine($"---------Terminou de rodar processo {pcb.ProcessID}");
 
         GerenteDeMemoria.DesalocarParticao(pcb.ParticaoAtual, pcb.OffSet, pcb.EnderecoLimite);
+
+        FilaDeFinalizados.AddProcess(pcb);
 
         Escalonador.semaforoEscalonador.Release();
         //Segue o flow de volta no escalonador
