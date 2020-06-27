@@ -11,6 +11,5 @@ public class RotinaTratamentoRetornoIO
         Console.WriteLine($"Desbloqueou o processo [{pcb.ProcessID}]");
 
         FilaDeProntos.AddProcess(pcb);
-
     }
 }

@@ -45,6 +45,5 @@ public enum State
     WAITING,
     FINISHED,
     BLOCKED_BY_IO_OPERATION,
-
     ABORTED_DUE_TO_EXCEPTION
 }

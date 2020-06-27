@@ -1,11 +1,9 @@
 using System;
-using System.Threading;
+
 public class ConsoleIO
 {
     public static void ExecutarConsoleIO()
     {
-        Console.WriteLine("Entrei no console de pedidos antes do shell wait");
-
         if (FilaPedidosConsole.ContarProcessos() != 0)
         {
             PedidoConsoleIO pedido = FilaPedidosConsole.DequeuePedido();
@@ -30,7 +28,7 @@ public class ConsoleIO
             else
             {
                 int value = GerenteDeMemoria.Memoria[endereco].Parameter;
-                Console.WriteLine($"O processo [{pedido.ProcessID}] está solicitando o " +
+                Console.WriteLine($"O processo [{pedido.ProcessID}] solicitou o " +
                                   $"valor no endereço de memória [{endereco}] e encontrou o valor [{value}]");
             }
 

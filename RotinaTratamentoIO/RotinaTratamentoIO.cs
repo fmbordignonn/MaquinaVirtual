@@ -15,6 +15,6 @@ public class RotinaTratamentoIO
         Escalonador.semaforoEscalonador.Release();
         //Segue o flow de volta no escalonador
 
-        Console.WriteLine("liberei o escalonador");
+        //Console.WriteLine("liberei o escalonador");
     }
 }

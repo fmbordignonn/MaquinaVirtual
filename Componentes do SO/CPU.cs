@@ -27,8 +27,7 @@ public class CPU
         {
             while (true)
             {
-                Console.WriteLine($"Current OPCode: {currentLine.OPCode}");
-
+                //Console.WriteLine($"Current OPCode: {currentLine.OPCode}");
 
                 //Verificando interrupção por fatia de tempo
                 if (TimerCPU.VerificaFatiaDeTempo(CommandsCount))
@@ -40,7 +39,7 @@ public class CPU
 
                     //Trata interrupção ocorrida por TIMER
                     RotinaTratamentoTimer.TratarInterrupcaoTimer(pcb);
-                    //Break para sair do while(true) e travar a CPU lá embaixo
+                    //Break para sair do while(true) e travar o semáforo da CPU lá embaixo
                     break;
                 }
 
@@ -61,16 +60,17 @@ public class CPU
                     //Console.WriteLine(currentLine.ToString());
                     Console.WriteLine($"valor em operation: {operation}");
 
-                    memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
+                    value = currentLine.Reg2.Trim(new char[] { '[', ']' });
+                    memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, pcb.Registradores[value]);
 
-                    //TRAP 1 [50]
+                    //TRAP 1 [r1]
                     //TRAP 2 [50]
                     if (!new string[] {"1", "2"}.Contains(operation))
                     {
                         throw new ArgumentException($"O valor [{operation}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
                     }
 
-                    // incrementa o PC pq senao nunca sai do TRAP
+                    // incrementa o PC pq senao nunca sai da linha TRAP
                     pcb.Pc++;
 
                     //Read
@@ -332,11 +332,12 @@ public class CPU
         }
         catch (Exception ex)
         {
-            //Caso de algum erro generico, finalizar o processo e liberar memoria ao inves de lançar erro
+            //Caso erro genérico
             throw new Exception($"Ocorreu um erro ao executar o comando na VM: [{ex.Message}]");
         }
 
-        Console.WriteLine("indo interromper a CPU");
+        //Console.WriteLine("indo interromper a CPU");
+        
         //Bloqueando a execução da CPU até que o escalonador libere a CPU 
         //para estar pronta a executar um novo processo
         CPU.semCPU.WaitOne();
