@@ -33,6 +33,8 @@ public class ConsoleIO
                 Console.WriteLine($"O processo [{pedido.ProcessID}] está solicitando o " +
                                   $"valor no endereço de memória [{endereco}] e encontrou o valor [{value}]");
             }
+
+            RotinaTratamentoRetornoIO.TratarRetornoIO(pedido.ProcessID);
         }
 
         Console.WriteLine("Não há pedidos de IO para serem processados");

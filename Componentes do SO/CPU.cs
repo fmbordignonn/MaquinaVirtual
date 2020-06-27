@@ -27,6 +27,9 @@ public class CPU
         {
             while (true)
             {
+                Console.WriteLine($"Current OPCode: {currentLine.OPCode}");
+
+
                 //Verificando interrupção por fatia de tempo
                 if (TimerCPU.VerificaFatiaDeTempo(CommandsCount))
                 {
@@ -55,7 +58,7 @@ public class CPU
 
                     string operation = currentLine.Reg1.Trim(new char[] { '[', ']' });
 
-                    Console.WriteLine(currentLine.ToString());
+                    //Console.WriteLine(currentLine.ToString());
                     Console.WriteLine($"valor em operation: {operation}");
 
                     memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, Convert.ToInt32(currentLine.Reg2.Trim(new char[] { '[', ']' })));
@@ -66,6 +69,9 @@ public class CPU
                     {
                         throw new ArgumentException($"O valor [{operation}] é inválido para operação de IO. Somente é aceito '1' ou '2' como argumento.");
                     }
+
+                    // incrementa o PC pq senao nunca sai do TRAP
+                    pcb.Pc++;
 
                     //Read
                     if (operation == "1")

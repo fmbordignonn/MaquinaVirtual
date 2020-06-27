@@ -2,7 +2,6 @@ using System;
 
 public class RotinaTratamentoIO
 {
-
     public static void TratarPedidoIO(ProcessControlBlock pcb, IOType operation, int endereco)
     {
         pcb.State = State.BLOCKED_BY_IO_OPERATION;

@@ -19,9 +19,17 @@ public class FilaBloqueadosIO
         //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
     }
 
-    public static ProcessControlBlock DequeueProcess()
+    public static ProcessControlBlock DequeueProcess(string pcbID)
     {
-        return FilaBloqueados.Dequeue();
+
+        foreach (var item in FilaBloqueados)
+        {
+            if (item.ProcessID == pcbID)
+            {
+                return FilaBloqueados.Dequeue();
+            }
+        }
+        return null;
     }
 
     public static int ContarProcessos()

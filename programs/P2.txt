@@ -1,13 +1,13 @@
 TRAP [1],[49]
-LDX r1,[49]
+LDD r1,[49]
 SUBI r1,1
-LDI r2,20
+LDI r2,21
 JMPIL r2,r1
 LDI r3,0
 STD [50],r3
 LDI r3,1
 STD [51],r3
-LDI r7,11
+LDI r7,12
 LDI r3,50
 LDI r4,51
 LDX r5,[r3]
