@@ -1,13 +1,15 @@
-TRAP [1],[49]
+LDI r0,49
+TRAP [1],[r0]
 LDD r1,[49]
-SUBI r1,1
-LDI r2,21
+LDD r0,[49]
+SUBI r1,2
+LDI r2,29
 JMPIL r2,r1
 LDI r3,0
 STD [50],r3
 LDI r3,1
 STD [51],r3
-LDI r7,12
+LDI r7,14
 LDI r3,50
 LDI r4,51
 LDX r5,[r3]
@@ -18,6 +20,12 @@ STX [r4],r5
 ADDI r3,1
 SUBI r1,1
 JMPIG r7,r1
+LDI r1,24
+LDI r3,50
+TRAP [2],[r3]
+SUBI r0,1
+ADDI r3,1
+JMPIG r1,r0
 STOP
 LDI r3,-1
 STD [50],r3

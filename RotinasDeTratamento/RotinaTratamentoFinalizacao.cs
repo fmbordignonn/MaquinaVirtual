@@ -41,7 +41,7 @@ public class RotinaTratamentoFinalizacao
         pcb.State = State.FINISHED;
         Console.WriteLine($"---------Terminou de rodar processo {pcb.ProcessID}");
 
-        PrintRegistradoresEMemoria(pcb);
+        //PrintRegistradoresEMemoria(pcb);
 
         GerenteDeMemoria.DesalocarParticao(pcb.ParticaoAtual, pcb.OffSet, pcb.EnderecoLimite);
 
