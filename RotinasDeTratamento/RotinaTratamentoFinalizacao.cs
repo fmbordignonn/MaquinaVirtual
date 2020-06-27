@@ -39,7 +39,7 @@ public class RotinaTratamentoFinalizacao
     public static void FinalizarProcesso(ProcessControlBlock pcb)
     {
         pcb.State = State.FINISHED;
-        Console.WriteLine($"---------Terminou de rodar processo {pcb.ProcessID}");
+        Console.WriteLine($"---------Terminou de rodar processo {pcb.ProcessID}---------");
 
         //PrintRegistradoresEMemoria(pcb);
 

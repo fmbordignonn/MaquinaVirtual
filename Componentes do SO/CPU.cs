@@ -14,7 +14,7 @@ public class CPU
         int CommandsCount = 0;
 
         // só pra mostrar que o processo ta RUNNING
-        Console.WriteLine($"\nProcess Id: {pcb.ProcessID} ; State: {pcb.State}");
+        Console.WriteLine($"\nProcess Id: {pcb.ProcessID} ; State: {pcb.State}\n");
 
         //Console.WriteLine("\nTo na cpu");
         string value = string.Empty;
@@ -58,7 +58,7 @@ public class CPU
                     string operation = currentLine.Reg1.Trim(new char[] { '[', ']' });
 
                     //Console.WriteLine(currentLine.ToString());
-                    Console.WriteLine($"valor em operation: {operation}");
+                    //Console.WriteLine($"valor em operation: {operation}");
 
                     value = currentLine.Reg2.Trim(new char[] { '[', ']' });
                     memoryPosition = GerenteDeMemoria.CalculaEnderecoMemoria(pcb, pcb.Registradores[value]);
