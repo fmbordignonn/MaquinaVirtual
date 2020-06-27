@@ -44,11 +44,9 @@ public class GerenteDeProcesso
     {
         if(GerenteMemoria.MemoriaCheia())
         {
-            //shell.Interrupt();
-            //escalonador.Interrupt();
-
-            throw new StackOverflowException("Todas as partições na memória estão alocadas.");
+            throw new StackOverflowException("Impossível alocar mais processos na memória pois todas partições já estão alocadas. Encerrando execução da VM");
         }
+
         Random r = new Random();
 
         int particaoAleatoria = r.Next(0, GerenteDeMemoria.NumeroParticoes);

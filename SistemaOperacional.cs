@@ -62,7 +62,7 @@ public class SistemaOperacional
                 continue;
             }
 
-            //program = 1;
+            Console.WriteLine("--------------------------------------------");
 
             switch (program)
             {

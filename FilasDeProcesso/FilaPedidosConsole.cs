@@ -14,7 +14,7 @@ public static class FilaPedidosConsole
     {
         FilaPedidos.Enqueue(pedido);
 
-        Console.WriteLine($"\nAdicionou o processo {pedido.ProcessID} a fila de pedidos do console");
+        Console.WriteLine($"\nAdicionou o processo {pedido.ProcessID} a fila de pedidos do console requisitando IO tipo [{pedido.IOOperation.ToString()}]");
     }
 
     public static PedidoConsoleIO DequeuePedido()
@@ -30,7 +30,7 @@ public static class FilaPedidosConsole
     public static void PrintFilaPedidosConsole()
     {
         Console.WriteLine("Printando fila de pedidos do console:\n");
-        
+
         foreach (var pedido in FilaPedidos)
         {
             Console.WriteLine($"Process Id: {pedido.ProcessID} | Operation: {pedido.IOOperation.ToString()} | Endereço solicitado: {pedido.Endereco}");
