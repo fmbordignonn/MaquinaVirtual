@@ -1,0 +1,14 @@
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\hostpolicy.dll
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\hostfxr.dll
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\trab.exe
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\trab.deps.json
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\trab.runtimeconfig.json
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\trab.runtimeconfig.dev.json
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\trab.dll
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\win10-x64\trab.pdb
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\win10-x64\trab.csprojAssemblyReference.cache
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\win10-x64\trab.csproj.CoreCompileInputs.cache
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\win10-x64\trab.AssemblyInfoInputs.cache
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\win10-x64\trab.AssemblyInfo.cs
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\win10-x64\trab.dll
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\win10-x64\trab.pdb

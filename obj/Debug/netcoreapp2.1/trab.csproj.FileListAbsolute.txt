@@ -1,0 +1,34 @@
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\trab.deps.json
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\trab.runtimeconfig.json
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\trab.runtimeconfig.dev.json
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\trab.dll
+C:\Users\feeel\Desktop\MaquinaVirtual\bin\Debug\netcoreapp2.1\trab.pdb
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\trab.csprojAssemblyReference.cache
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\trab.csproj.CoreCompileInputs.cache
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\trab.AssemblyInfoInputs.cache
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\trab.AssemblyInfo.cs
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\trab.dll
+C:\Users\feeel\Desktop\MaquinaVirtual\obj\Debug\netcoreapp2.1\trab.pdb
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.deps.json
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.runtimeconfig.json
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.runtimeconfig.dev.json
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.dll
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.pdb
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.csprojAssemblyReference.cache
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.csproj.CoreCompileInputs.cache
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.AssemblyInfoInputs.cache
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.AssemblyInfo.cs
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.dll
+C:\Users\feeel\Desktop\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.pdb
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.deps.json
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.runtimeconfig.json
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.runtimeconfig.dev.json
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.dll
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\bin\Debug\netcoreapp2.1\trab.pdb
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.csprojAssemblyReference.cache
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.csproj.CoreCompileInputs.cache
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.AssemblyInfoInputs.cache
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.AssemblyInfo.cs
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.dll
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.pdb
+C:\Users\feeel\Desktop\pau no meu cu\4° sem\sisop\maquina virtual\parte 1\MaquinaVirtual versao 1\obj\Debug\netcoreapp2.1\trab.genruntimeconfig.cache
