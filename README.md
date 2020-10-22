@@ -1,7 +1,7 @@
 # Maquina Virtual
 
 <p align="center">
-    <img src="definicoes VM/diagrama.png">
+    <img src="definicoesMaquinaVirtual/diagrama.png">
 <p align="center">Estrutura da Máquina Virtual<p align="center">
 
 ## Para rodar o programa:
