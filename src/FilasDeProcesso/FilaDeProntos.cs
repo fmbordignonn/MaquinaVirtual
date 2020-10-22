@@ -1,47 +1,53 @@
 using System;
 using System.Collections.Generic;
-public static class FilaDeProntos
+using Modelos;
+
+namespace FilasProcesso
 {
-    private static Queue<ProcessControlBlock> FilaProntos { get; set; }
-
-    static FilaDeProntos()
+    public static class FilaDeProntos
     {
-        FilaProntos = new Queue<ProcessControlBlock>();
-    }
+        private static Queue<ProcessControlBlock> FilaProntos { get; set; }
 
-    public static void AddProcess(ProcessControlBlock pcb)
-    {
-        FilaProntos.Enqueue(pcb);
-
-        Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de prontos com status {pcb.State}\n");
-
-        //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
-    }
-
-    public static ProcessControlBlock DequeueProcess()
-    {
-        return FilaProntos.Dequeue();
-    }
-
-    public static int ContarProcessos()
-    {
-        return FilaProntos.Count;
-    }
-
-    public static void PrintFilaDeProntos()
-    {
-        if (FilaProntos.Count == 0)
+        static FilaDeProntos()
         {
-            Console.WriteLine("Não há processos prontos no momento");
+            FilaProntos = new Queue<ProcessControlBlock>();
         }
-        else
-        {
-            Console.WriteLine("Printando fila de processos prontos:\n");
 
-            foreach (var pcb in FilaProntos)
+        public static void AddProcess(ProcessControlBlock pcb)
+        {
+            FilaProntos.Enqueue(pcb);
+
+            Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de prontos com status {pcb.State}\n");
+
+            //Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+        }
+
+        public static ProcessControlBlock DequeueProcess()
+        {
+            return FilaProntos.Dequeue();
+        }
+
+        public static int ContarProcessos()
+        {
+            return FilaProntos.Count;
+        }
+
+        public static void PrintFilaDeProntos()
+        {
+            if (FilaProntos.Count == 0)
             {
-                Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+                Console.WriteLine("Não há processos prontos no momento");
+            }
+            else
+            {
+                Console.WriteLine("Printando fila de processos prontos:\n");
+
+                foreach (var pcb in FilaProntos)
+                {
+                    Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+                }
             }
         }
     }
+
 }

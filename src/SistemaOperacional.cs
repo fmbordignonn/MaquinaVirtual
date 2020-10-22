@@ -1,6 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
+using ComponentesSO;
+using FilasProcesso;
 
 public class SistemaOperacional
 {

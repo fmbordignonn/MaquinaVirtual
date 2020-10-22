@@ -6,7 +6,7 @@
 
 ## Para rodar o programa:
 
-- Instale o .NET Core Runtime 2.1
+- Instale o .NET Core Runtime 2.1:
 	[**dotnet.microsoft.com/download/dotnet-core/2.1**](https://dotnet.microsoft.com/download/dotnet-core/2.1)
 
 - Se estiver usando o VSCode, instale a extensão *C#*

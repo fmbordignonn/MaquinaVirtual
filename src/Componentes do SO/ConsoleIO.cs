@@ -1,43 +1,49 @@
 using System;
+using Modelos;
+using FilasProcesso;
+using RotinaTratamento;
 
-public class ConsoleIO
+namespace ComponentesSO
 {
-    public static void ExecutarConsoleIO()
+    public class ConsoleIO
     {
-        if (FilaPedidosConsole.ContarProcessos() != 0)
+        public static void ExecutarConsoleIO()
         {
-            PedidoConsoleIO pedido = FilaPedidosConsole.DequeuePedido();
-
-            int endereco = pedido.Endereco;
-
-            if (pedido.IOOperation == IOType.READ)
+            if (FilaPedidosConsole.ContarProcessos() != 0)
             {
-                Console.WriteLine($"O processo [{pedido.ProcessID}] está solicitando leitura de um valor que será salvo na posição de memória [{endereco}]\n");
-                Console.WriteLine("Digite o valor para ser salvo:");
+                PedidoConsoleIO pedido = FilaPedidosConsole.DequeuePedido();
 
-                int value = Convert.ToInt32(Console.ReadLine());
+                int endereco = pedido.Endereco;
 
-                GerenteDeMemoria.Memoria[endereco] = new PosicaoDeMemoria
+                if (pedido.IOOperation == IOType.READ)
                 {
-                    OPCode = "DATA",
-                    Parameter = value
-                };
+                    Console.WriteLine($"O processo [{pedido.ProcessID}] está solicitando leitura de um valor que será salvo na posição de memória [{endereco}]\n");
+                    Console.WriteLine("Digite o valor para ser salvo:");
 
-                Console.WriteLine("Valor salvo com sucesso na memória!");
-            }
-            else
-            {
-                int value = GerenteDeMemoria.Memoria[endereco].Parameter;
-                Console.WriteLine($"O processo [{pedido.ProcessID}] solicitou o " +
-                                  $"valor no endereço de memória [{endereco}] e encontrou o valor [{value}]");
+                    int value = Convert.ToInt32(Console.ReadLine());
+
+                    GerenteDeMemoria.Memoria[endereco] = new PosicaoDeMemoria
+                    {
+                        OPCode = "DATA",
+                        Parameter = value
+                    };
+
+                    Console.WriteLine("Valor salvo com sucesso na memória!");
+                }
+                else
+                {
+                    int value = GerenteDeMemoria.Memoria[endereco].Parameter;
+                    Console.WriteLine($"O processo [{pedido.ProcessID}] solicitou o " +
+                                      $"valor no endereço de memória [{endereco}] e encontrou o valor [{value}]");
+                }
+
+                RotinaTratamentoRetornoIO.TratarRetornoIO(pedido.ProcessID);
             }
 
-            RotinaTratamentoRetornoIO.TratarRetornoIO(pedido.ProcessID);
+            Console.WriteLine("Não há pedidos de IO para serem processados");
+            //Liberando shell para voltar a executar
+            SistemaOperacional.semaforoShell.Release();
+
         }
-
-        Console.WriteLine("Não há pedidos de IO para serem processados");
-        //Liberando shell para voltar a executar
-        SistemaOperacional.semaforoShell.Release();
-
     }
 }

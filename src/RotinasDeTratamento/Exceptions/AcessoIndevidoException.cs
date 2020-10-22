@@ -1,10 +1,13 @@
 using System;
 
-public class AcessoIndevidoException : Exception
+namespace RotinaTratamento
 {
-
-    public AcessoIndevidoException(string message)
+    public class AcessoIndevidoException : Exception
     {
-        Console.WriteLine($"[{message}]");
+
+        public AcessoIndevidoException(string message)
+        {
+            Console.WriteLine($"[{message}]");
+        }
     }
 }

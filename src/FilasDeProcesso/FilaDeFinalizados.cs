@@ -1,46 +1,51 @@
 using System;
 using System.Collections.Generic;
+using Modelos;
 
-public static class FilaDeFinalizados
+namespace FilasProcesso
 {
-    private static Queue<ProcessControlBlock> FilaFinalizados { get; set; }
-
-    static FilaDeFinalizados()
+    public static class FilaDeFinalizados
     {
-        FilaFinalizados = new Queue<ProcessControlBlock>();
-    }
+        private static Queue<ProcessControlBlock> FilaFinalizados { get; set; }
 
-    public static void AddProcess(ProcessControlBlock pcb)
-    {
-        FilaFinalizados.Enqueue(pcb);
-
-        Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de processos finalizados");
-    }
-
-    public static ProcessControlBlock DequeueProcess()
-    {
-        return FilaFinalizados.Dequeue();
-    }
-
-    public static int ContarProcessos()
-    {
-        return FilaFinalizados.Count;
-    }
-
-    public static void PrintFilaDeFinalizados()
-    {
-        if (FilaFinalizados.Count == 0)
+        static FilaDeFinalizados()
         {
-            Console.WriteLine("Não há processos finalizados no momento");
+            FilaFinalizados = new Queue<ProcessControlBlock>();
         }
-        else
-        {
-            Console.WriteLine("Printando fila de processos finalizados:\n");
 
-            foreach (var pcb in FilaFinalizados)
+        public static void AddProcess(ProcessControlBlock pcb)
+        {
+            FilaFinalizados.Enqueue(pcb);
+
+            Console.WriteLine($"Adicionou o processo {pcb.ProcessID} a fila de processos finalizados");
+        }
+
+        public static ProcessControlBlock DequeueProcess()
+        {
+            return FilaFinalizados.Dequeue();
+        }
+
+        public static int ContarProcessos()
+        {
+            return FilaFinalizados.Count;
+        }
+
+        public static void PrintFilaDeFinalizados()
+        {
+            if (FilaFinalizados.Count == 0)
             {
-                Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+                Console.WriteLine("Não há processos finalizados no momento");
+            }
+            else
+            {
+                Console.WriteLine("Printando fila de processos finalizados:\n");
+
+                foreach (var pcb in FilaFinalizados)
+                {
+                    Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+                }
             }
         }
     }
+
 }

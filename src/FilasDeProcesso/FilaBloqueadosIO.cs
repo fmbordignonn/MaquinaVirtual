@@ -1,53 +1,57 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Modelos;
 
-public class FilaBloqueadosIO
+namespace FilasProcesso
 {
-    private static Queue<ProcessControlBlock> FilaBloqueados { get; set; }
-
-    static FilaBloqueadosIO()
+    public class FilaBloqueadosIO
     {
-        FilaBloqueados = new Queue<ProcessControlBlock>();
-    }
+        private static Queue<ProcessControlBlock> FilaBloqueados { get; set; }
 
-    public static void AddProcess(ProcessControlBlock pcb)
-    {
-        FilaBloqueados.Enqueue(pcb);
-
-        Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de bloqueados por IO");
-    }
-
-    public static ProcessControlBlock DequeueProcess(string pcbID)
-    {
-        foreach (var item in FilaBloqueados)
+        static FilaBloqueadosIO()
         {
-            if (item.ProcessID == pcbID)
+            FilaBloqueados = new Queue<ProcessControlBlock>();
+        }
+
+        public static void AddProcess(ProcessControlBlock pcb)
+        {
+            FilaBloqueados.Enqueue(pcb);
+
+            Console.WriteLine($"\nAdicionou o processo {pcb.ProcessID} a fila de bloqueados por IO");
+        }
+
+        public static ProcessControlBlock DequeueProcess(string pcbID)
+        {
+            foreach (var item in FilaBloqueados)
             {
-                return FilaBloqueados.Dequeue();
+                if (item.ProcessID == pcbID)
+                {
+                    return FilaBloqueados.Dequeue();
+                }
             }
+            throw new ArgumentException($"O process id numero [{pcbID}] não existe na fila de processos bloqueados");
         }
-        throw new ArgumentException($"O process id numero [{pcbID}] não existe na fila de processos bloqueados");
-    }
 
-    public static int ContarProcessos()
-    {
-        return FilaBloqueados.Count;
-    }
-
-    public static void PrintFilaDeBloqueados()
-    {
-        if (FilaBloqueados.Count == 0)
+        public static int ContarProcessos()
         {
-            Console.WriteLine("Não há processos bloqueados por IO no momento");
+            return FilaBloqueados.Count;
         }
-        else
-        {
-            Console.WriteLine("Printando fila de processos bloqueados:\n");
 
-            foreach (var pcb in FilaBloqueados)
+        public static void PrintFilaDeBloqueados()
+        {
+            if (FilaBloqueados.Count == 0)
             {
-                Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+                Console.WriteLine("Não há processos bloqueados por IO no momento");
+            }
+            else
+            {
+                Console.WriteLine("Printando fila de processos bloqueados:\n");
+
+                foreach (var pcb in FilaBloqueados)
+                {
+                    Console.WriteLine($"Process Id: {pcb.ProcessID} | State: {pcb.State} | Offset: {pcb.OffSet} | EndereçoLimite: {pcb.EnderecoLimite}");
+                }
             }
         }
     }
