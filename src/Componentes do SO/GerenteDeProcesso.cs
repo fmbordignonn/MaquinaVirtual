@@ -31,7 +31,7 @@ namespace ComponentesSO
 
         public void LoadProgram(int programNumber)
         {
-            string filePath = Environment.CurrentDirectory + @"\programs\P" + programNumber + ".txt";
+            string filePath = Environment.CurrentDirectory + @"\assemblyPrograms\P" + programNumber + ".txt";
 
             int particao = ParticaoAleatoria();
 
