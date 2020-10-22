@@ -1,11 +1,14 @@
-# MaquinaVirtual
+# Maquina Virtual
 
-Trabalho de sisop
+<p align="center">
+    <img src="definicoes VM/diagrama.png">
+<p align="center">Estrutura da Máquina Virtual<p align="center">
 
-Para rodar o programa (no VSCode por exemplo) deve-se:
+## Para rodar o programa:
 
-	- instalar o .NET Core 2.1 ---> 'https://dotnet.microsoft.com/download/dotnet-core/2.1';
+- Instale o .NET Core Runtime 2.1
+	[**dotnet.microsoft.com/download/dotnet-core/2.1**](https://dotnet.microsoft.com/download/dotnet-core/2.1)
 
-	- instalar a extensão 'C#' no VSCode;
+- Se estiver usando o VSCode, instale a extensão *C#*
 
-	- use o comando 'dotnet run' para rodar.
+- Use o comando ```dotnet run```  para rodar
